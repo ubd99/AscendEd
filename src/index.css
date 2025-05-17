@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+@import 'tailwindcss';
+
+@theme{
+  --font-opensans: "Open Sans", sans-serif
+}
+
+.logo{
+  @apply text-[clamp(20px,_2.5vw,_2.5vw)] text-blue-400 font-semibold font-opensans
+}
+
+.navbarText{
+  @apply text-[clamp(10px,_1.25vw,_1.25vw)] text-blue-200 font-semibold pt-[clamp(0.25vw,_0.75vw,_0.75vw)]
+}
