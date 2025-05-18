@@ -6,9 +6,9 @@
 }
 
 .logo{
-  @apply sm:text-xl md:text-2xl lg:text-4xl text-blue-400 font-semibold font-opensans
+  @apply text-xl pt-1.5 sm:pt-1 md:pt-0 lg:pt-1.5 sm:text-xl md:text-2xl lg:text-4xl text-blue-400 font-semibold font-opensans
 }
 
 .navbarText{
-  @apply text-[clamp(10px,_1.25vw,_20px)] text-blue-200 font-semibold pt-[clamp(0.25vw,_0.75vw,_0.75vw)]
+  @apply lg:text-xl md:text-base sm:text-sm text-[12px] text-blue-200 font-semibold whitespace-nowrap pt-2 md:pt-0.5 lg:pt-2
 }
