@@ -6,9 +6,9 @@
 }
 
 .logo{
-  @apply text-[clamp(20px,_2.5vw,_2.5vw)] text-blue-400 font-semibold font-opensans
+  @apply sm:text-xl md:text-2xl lg:text-4xl text-blue-400 font-semibold font-opensans
 }
 
 .navbarText{
-  @apply text-[clamp(10px,_1.25vw,_1.25vw)] text-blue-200 font-semibold pt-[clamp(0.25vw,_0.75vw,_0.75vw)]
+  @apply text-[clamp(10px,_1.25vw,_20px)] text-blue-200 font-semibold pt-[clamp(0.25vw,_0.75vw,_0.75vw)]
 }
