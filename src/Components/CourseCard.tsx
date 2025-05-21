@@ -11,7 +11,7 @@ interface courseinfo{
 
 const Course_card = ({imgSrc, name, description, rating, className="", link="/"}: courseinfo) =>{
     return (
-        <div className={`rounded-sm md:rounded-md lg:rounded-lg xl:rounded-xl p-3 xl:p-6 w-50 md:w-70 lg:w-80 xl:w-90 xl:h-100 bg-blue-900 ${className}`}>
+        <div className={`rounded-lg mx-auto md:rounded-md lg:rounded-lg xl:rounded-xl p-3 xl:p-6 w-50 md:w-70 md:h-90 lg:w-80 xl:w-90 xl:h-100 bg-blue-900 ${className}`}>
             <Link to={link}>
                 <img src={imgSrc} className=" w-full h-40 sm:h-48 md:h-50 xl:h-55 rounded-xl shadow-md shadow-black"></img>
                 <p className="font-bold pt-4">{name}</p>
