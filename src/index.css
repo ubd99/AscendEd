@@ -12,3 +12,7 @@
 .navbarText{
   @apply lg:text-xl md:text-base sm:text-sm text-[12px] text-blue-200 font-semibold whitespace-nowrap pt-2 md:pt-0.5 lg:pt-2
 }
+
+.contactDiv{
+  @apply pt-[10vh] w-full sm:w-1/2 lg:w-1/4 p-2
+}
