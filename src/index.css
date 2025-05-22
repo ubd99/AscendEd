@@ -16,3 +16,7 @@
 .contactDiv{
   @apply pt-[10vh] w-full sm:w-1/2 lg:w-1/4 p-2
 }
+
+.buttonclass{
+  @apply w-1/10 bg-purple-900 font-opensans font-bold px-4 py-2 rounded-lg
+}
