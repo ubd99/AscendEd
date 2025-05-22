@@ -5,7 +5,7 @@ const Home = ()=>{
     return (
         <div className='h-screen w-full'>
             <Navbar/>
-            <div className='bg-blue-700 text-center p-[calc(2vh+2vw)] lg:px-[calc(5vw+5vh)] lg pb-0 sm:flex sm:text-left'>
+            <div className='bg-purple-950 text-center p-[calc(2vh+2vw)] lg:px-[calc(5vw+5vh)] lg pb-0 sm:flex sm:text-left'>
                 <div className='sm:w-[50vw] my-auto space-y-[2.5vh]'>
                     <p className='text-white italic font-bold font-opensans sm:text-lg md:text-xl lg:text-2xl xl:text-3xl'>Courses that help you grow</p>
                     <p className='text-white text-[14px] italic font-opensans sm:text-md md:text-lg lg:text-xl xl:text-2xl'>Unlock your potential -<br/>learn anytime, anywhere.<br/>Expert-led online courses designed to elevate your skills and your future.</p>               

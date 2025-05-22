@@ -10,7 +10,7 @@ const Navbar = () => {
                 <div className="hidden sm:flex justify-end ml-auto space-x-8 pr-2 sm:pl-5">
                     <Link to="/about"><p className="navbarText">About AscendEd</p></Link>
                     <Link to="/contact"><p className="navbarText">Contact Us</p></Link>
-                    <Link to="/"><p className="navbarText">Sign in</p></Link>
+                    <Link to="/signin"><p className="navbarText">Sign in</p></Link>
                 </div>
                 <div className="sm:hidden justify-end ml-auto pr-3">
                     <Sidebar/>
