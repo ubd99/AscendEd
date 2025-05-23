@@ -17,14 +17,14 @@ const courses : Array<Icourses> = [
     {
         id : "2",
         name : "Python",
-        desc : "A course on Programming in Python",
+        desc : "This course introduces the basics of Python for web development, automation, data analysis, scripting, and problem-solving—no experience needed.",
         rating : 4.7,
         ImgSrc : "./src/assets/Py.png"
     },
     {
         id : "3",
         name : "Cybersecurity",
-        desc : "A course on CY",
+        desc : "This course covers the fundamentals of cybersecurity, including network security, threat analysis, cryptography, and ethical hacking—no prior experience required.",
         rating : 4.4,
         ImgSrc : "./src/assets/CY.jpg"
     }
