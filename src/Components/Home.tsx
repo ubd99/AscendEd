@@ -16,9 +16,9 @@ const Home = ()=>{
             </div>
             <p className='p-5 pb-10 text-center sm:text-left text-base xl:pl-8 sm:text-xl md:text-2xl lg:text-2xl xl:text-2xl font-opensans'>Future-Proof your skills with the perfect courses</p>
             <div className='md:flex p-4 space-y-[5vh] sm:space-x-8 lg:space-x-15 xl:space-x-20 justify-center overflow-x-auto'>
-                <Course_card imgSrc='./src/assets/AI.png' name='Artificial Intelligence' description='The best AI course for beginners.' rating={4.9}/>
-                <Course_card imgSrc='./src/assets/Py.png' name='Programming in Python' description='Learn Python from scratch.' rating={5}/>
-                <Course_card className='md:hidden lg:block'imgSrc='./src/assets/CY.jpg' name='Cybersecurity' description='Cyber-security made easy' rating={4.6}/>
+                <Course_card id='1' imgSrc='./src/assets/AI.png' name='Artificial Intelligence' description='The best AI course for beginners.' rating={4.9}/>
+                <Course_card id='2' imgSrc='./src/assets/Py.png' name='Programming in Python' description='Learn Python from scratch.' rating={5}/>
+                <Course_card id='3' className='md:hidden lg:block'imgSrc='./src/assets/CY.jpg' name='Cybersecurity' description='Cyber-security made easy' rating={4.6}/>
             </div>
             <p className='p-5 text-center sm:text-left text-base xl:pl-8 sm:text-xl md:text-2xl lg:text-2xl xl:text-2xl font-opensans'>Don't take our word for it. See for yourself</p>
             <div className='md:flex sm:justify-center place-items-center pt-4 pl-8'>

@@ -1,24 +1,37 @@
 import { Link } from "react-router-dom"
 
-interface courseinfo{
+interface ICourseInfo{
     imgSrc : string,
     name : string,
     description : string,
     rating : number,
     className? : string,
-    link?: string
+    id? : string
+   // onClick? : () => void
 }
 
-const Course_card = ({imgSrc, name, description, rating, className="", link="/"}: courseinfo) =>{
+const Course_card: React.FC<ICourseInfo> = ({imgSrc, name, description, rating, className="", id=""}) =>{
     return (
-        <div className={`rounded-lg mx-auto md:rounded-md lg:rounded-lg xl:rounded-xl p-3 xl:p-6 w-50 md:w-70 md:h-90 lg:w-80 xl:w-90 xl:h-100 bg-purple-900 ${className}`}>
-            <Link to={link}>
-                <img src={imgSrc} className=" w-full h-40 sm:h-48 md:h-50 xl:h-55 rounded-xl shadow-md shadow-black"></img>
-                <p className="font-bold pt-4">{name}</p>
-                <p className="italic xl:pt-4">{description}</p>
-                <p className="xl:pt-4">{`Rating: ${rating}`}</p>
+            <Link to={`/course/${id}`}>
+                <div 
+                /*style={{cursor: onClick ? 'pointer' : 'default'}}
+                role={onClick ? 'button' : undefined}
+                tabIndex={onClick ? 0 : undefined}
+                onKeyDown={(e)=>{
+                    if(e.key === 'Enter' || e.key === ' ' && onClick){
+                        e.preventDefault();
+                        onClick?.();
+                    }
+                }}
+                onClick={onClick}*/
+                className={`rounded-lg mx-auto md:rounded-md lg:rounded-lg xl:rounded-xl p-3 xl:p-6 w-50 md:w-70 md:h-90 lg:w-80 xl:w-90 xl:h-100 bg-purple-900 ${className}`}>
+                
+                    <img src={imgSrc} className=" w-full h-40 sm:h-48 md:h-50 xl:h-55 rounded-xl shadow-md shadow-black"></img>
+                    <p className="font-bold pt-4">{name}</p>
+                    <p className="italic xl:pt-4">{description}</p>
+                    <p className="xl:pt-4">{`Rating: ${rating}`}</p>        
+                </div>
             </Link>
-        </div>
     )
 }
 export {Course_card}

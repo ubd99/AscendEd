@@ -18,5 +18,5 @@
 }
 
 .buttonclass{
-  @apply w-1/10 bg-purple-900 font-opensans font-bold px-4 py-2 rounded-lg
+  @apply bg-purple-900 font-opensans font-bold px-4 py-2 rounded-lg
 }
