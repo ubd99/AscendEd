@@ -1,4 +1,4 @@
-import { useSidebarStore } from "./states/usesidebar"
+import { useSidebarStore } from "../states/usesidebar"
 import { Link } from "react-router-dom";
 
 const Sidebar = () => {

@@ -1,0 +1,52 @@
+import {Navbar} from '../Components/Navbar';
+import { Course_card } from '../Components/CourseCard';
+import { Testimonial } from '../Components/Testimonial';
+import { courses } from '../DB/mockDB';
+const Home = ()=>{
+    return (
+        <div className='w-full'>
+            <Navbar/>
+            <div className='text-center p-[calc(2vh+2vw)] lg:px-[calc(5vw+5vh)] pb-50 sm:flex sm:text-left'>
+                <div className='sm:w-[50vw] my-auto space-y-[2.5vh]'>
+                    <p className='font-semibold font-opensans sm:text-lg md:text-xl lg:text-4xl xl:text-6xl'>Courses that help you grow</p>
+                    <p className='text-[14px] font-opensans sm:text-md md:text-lg lg:text-xl xl:text-2xl'>Unlock your potential -<br/>learn anytime, anywhere.<br/>Expert-led online courses designed to elevate your skills and your future.</p>               
+                </div>
+                <div className='w-full pt-5 mx-auto sm:pl-30'>
+                    <img src='./src/assets/home.png' className="mx-auto rounded-3xl sm:mx-0 sm:ml-auto h-fit w-[calc(20vw+30vh)] sm:w-[calc(20vw+15vh)] md:w-[calc(25vw+15vh)] lg:w-full object-cover overflow-hidden"></img>
+                    <div className='flex w-full mt-8'>
+                        <img className='w-1/2 rounded-xl object-cover' src='./src/assets/study.png'/>
+                        <img className='w-1/2 rounded-xl object-cover' src='./src/assets/study2.png'/>
+                    </div>
+                </div>
+            </div>
+            <div className='sm:flex sm:px-[calc(5vw+5vh)]'>
+                <div className='px-5 my-auto sm:w-1/2'>
+                    <img className='rounded-2xl' src="./src/assets/sttudy3.png"/>
+                </div>
+                <div className='pt-10 sm:w-1/2'>
+                    <p className='pb-10 text-center font-semibold sm:text-left text-base xl:pl-8 sm:text-xl md:text-2xl lg:text-2xl xl:text-6xl font-opensans'>Future-Proof your skills with the perfect courses</p>
+                    <p className='pb-10 text-center sm:text-left text-base xl:pl-8 sm:text-xl md:text-2xl lg:text-2xl xl:text-3xl font-opensans'>Stay ahead in a fast-changing world by investing in the right knowledge. Our expertly curated courses are designed to equip you with the in-demand skills you need to thrive—today and tomorrow.</p>
+                </div>
+            </div>
+            <div className='flex space-y-10 lg:space-x-10 justify-center px-3 sm:px-[calc(5vw+5vh)] pt-20 flex-wrap'>
+                {courses.map((e)=>{
+                    return <Course_card id={e.id}/>
+                })}
+            </div> 
+            <div className='px-[calc(5vw+5vh)] text-center pt-40'>
+            <p className='p-5 text-center text-base font-semibold xl:pl-8 sm:text-xl md:text-2xl lg:text-2xl xl:text-5xl font-opensans'>Don't take our word for it. See for yourself</p>
+                <div className='md:flex sm:justify-center place-items-center pt-4 pl-8'>
+                    {Array.from({length: 3}).map((_,i) => {
+                        
+                        return <Testimonial className='mt-30 md:mt-auto'  userid={`00${i+1}`}/>
+                    })}
+                </div>
+            </div>
+            <div className='p-20 text-center'>
+                <p>2025&copy; - AscendEd&trade;</p>
+            </div>
+        </div>
+    )
+}
+
+export {Home}

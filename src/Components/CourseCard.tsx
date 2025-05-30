@@ -1,36 +1,37 @@
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
+import { courses } from "../DB/mockDB";
+import { Rating } from "./rating";
 
-interface ICourseInfo{
-    imgSrc : string,
-    name : string,
-    description : string,
-    rating : number,
-    className? : string,
-    id? : string
-   // onClick? : () => void
+interface ICourseInfo {
+  className?: string;
+  id?: string;
 }
 
-const Course_card: React.FC<ICourseInfo> = ({imgSrc, name, description, rating, className="", id=""}) =>{
-    return (
-                <div 
-                /*style={{cursor: onClick ? 'pointer' : 'default'}}
-                role={onClick ? 'button' : undefined}
-                tabIndex={onClick ? 0 : undefined}
-                onKeyDown={(e)=>{
-                    if(e.key === 'Enter' || e.key === ' ' && onClick){
-                        e.preventDefault();
-                        onClick?.();
-                    }
-                }}
-                onClick={onClick}*/
-                className={`rounded-lg mx-auto md:rounded-md lg:rounded-lg xl:rounded-xl p-3 xl:p-6 w-50 md:w-70 md:h-90 lg:w-80 xl:w-90 xl:h-100 bg-purple-900 ${className}`}>
-                <Link to={`/course/${id}`}>
-                    <img src={imgSrc} className=" w-full h-40 sm:h-48 md:h-50 xl:h-55 rounded-xl shadow-md shadow-black"></img>
-                    <p className="font-bold pt-4">{name}</p>
-                    <p className="italic xl:pt-4">{description}</p>
-                    <p className="xl:pt-4">{`Rating: ${rating}`}</p>        
-                </Link>
-                </div>
-    )
-}
-export {Course_card}
+const Course_card: React.FC<ICourseInfo> = ({ className = "", id = "" }) => {
+  const course = courses.find((c) => c.id === id);
+  const nav = useNavigate();
+  return (
+      <div
+        className={`rounded-xl w-full sm:w-3/10 sm:min-w-90 h-140 flex items-center justify-center bg-white overflow-hidden ${className}`}
+        style={{ boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.4)", cursor: "pointer"}}
+        onClick={() => {nav(`/course/${course?.id}`)}}
+      >
+        <div className="h-full w-3/5 sm:w-1/2 pt-10 pl-5 z-10">
+          <p className="xl:text-2xl 2xl:text-4xl font-semibold">{course?.name}</p>
+          <p className="pr-2 pt-5 font-opensans">{course?.desc}</p>
+          <Rating
+            className="pt-10"
+            rate={typeof course?.rating === "number" ? course.rating : 0}
+            label= {true}
+          />
+        </div>
+        <div className="h-full w-2/5 z-0">
+          <img
+            src={course?.ImgSrc}
+            className="h-full rounded-l-full object-cover"
+          />
+        </div>
+      </div>
+  );
+};
+export { Course_card };

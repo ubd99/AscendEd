@@ -1,0 +1,157 @@
+<nav className="flex space-x-6 sm:pt-0.5 md:pt-1 lg:pt-1">
+                <Link to="/"><p className="logo pl-2">AscendED</p></Link>
+                <p className="italic font-opensans pt-[1.5vh] mx-auto text-[0.8rem] sm:text-sm md:text-md lg:text-lg xl:text-xl sm:p-0 sm:m-auto">Boost your career</p>
+                <div className="hidden sm:flex justify-end ml-auto space-x-8 pr-2 sm:pl-5">
+                    <Link to="/about"><p className="navbarText">About AscendEd</p></Link>
+                    <Link to="/contact"><p className="navbarText">Contact Us</p></Link>
+                    <Link to="/signin"><p className="navbarText">Sign in</p></Link>
+                </div>
+                <div className="sm:hidden justify-end ml-auto pr-3">
+                    <Sidebar/>
+                </div>
+            </nav>
+
+
+about
+
+
+<div className="shadow-black h-90 sm:h-100 shadow-md md:h-120 lg:h-135 xl:h-110 relative">
+        <img
+          src="./src/assets/student.png"
+          className="absolute h-[calc(25vw+25vh)] max-h-[23rem] sm:h-[calc(28vw+28vh)] sm:min-h-[20rem] sm:max-h-[25rem] md:h-[calc(35vw+35vh)] md:max-h-[29rem] lg:h-[540px] xl:h-[400px] right-0 md:right-7 lg:right-10 bottom-0 rounded-md"
+        ></img>
+        <p className="text-sm w-[calc(20vw+20vh)] sm:w-[calc(40vw+40vh)] sm:text-xl md:text-xl lg:text-2xl xl:text-3xl italic font-bold font-opensans top-8 sm:top-20 md:top-12 lg:top-25 xl:top-20 left-3 sm:left-10 md:left-15 xl:left-40 absolute">
+          AscendEd - Where we make goals a reality.
+        </p>
+        <p className="text-[14px] sm:text-base md:text-[19px] xl:text-2xl italic font-normal font-opensans top-20 sm:top-30 lg:top-39 xl:top-30 left-5 sm:left-11 md:left-16 xl:left-40 w-[calc(12vw+12vh)] sm:w-73 md:w-80 lg:w-90 xl:w-170 absolute">
+          Every ambition deserves the right support. We’re a team of creatives
+          and strategists turning vision into progress. From first steps to
+          scaling up, we move with purpose—together.
+        </p>
+      </div>
+      <div className="bg-purple-900 w-full h-100 lg:h-120 shadow-black shadow-2xl relative">
+        <img
+          src="./src/assets/instruct.png"
+          className="h-75 md:h-90 lg:h-100 xl:h-110 absolute bottom-0 left-0 sm:left-10 lg:left-20 xl:left-40"
+        />
+        <p className="absolute font-opensans italic text-base md:text-xl lg:text-2xl xl:text-3xl w-[calc(15vw+15vh)] md:w-60 lg:w-80 xl:w-120 right-5 sm:right-15 lg:right-25 xl:right-40 top-10 lg:top-15 xl:top-20">
+          Our <b>instructors</b> are more than just teachers — they're mentors
+          dedicated to helping students succeed. With real-world experience and
+          a passion for education, they bring clarity, support, and motivation
+          to every step of the learning journey.
+        </p>
+      </div>
+      <div className="bg-purple-950 w-full text-center">
+        <img
+          src="./src/assets/plan.png"
+          className="w-[calc(15vw+15vh)] mx-auto pt-10"
+        ></img>
+        <p className="font-bold text-md sm:text-xl md:text-2xl lg:3xl pt-10">
+          Easy and Affordable Plans
+        </p>
+        <p className="text-md sm:text-xl md:text-2xl lg:3xl p-5">
+          Whether you’re just starting out or growing fast, our plans keep
+          things affordable.
+        </p>
+      </div>
+      <div className="bg-black w-full text-center">
+        <p>2025 - AscendEd&trade;</p>
+      </div>
+    </div>
+  );
+
+
+  ContactUs
+
+  <div className="h-[50vh] max-h-[22rem] w-full bg-purple-950 items-center justify-center flex">
+        <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-opensans font-bold">
+          Contact Us
+        </p>
+      </div>
+      <div className="text-center items-center flex flex-wrap">
+        <div className="contactDiv">
+          <p className="text-lg font-bold pb-3 sm:text-xl md:text-2xl">
+            For Learners
+          </p>
+          <hr className="w-1/2 sm:w-3/4 md:w-5/6 mx-auto text-gray-400"></hr>
+          <p className="text-md font-opensans pt-4">learn@ascended.com</p>
+        </div>
+        <div className="contactDiv">
+          <p className="text-lg font-bold pb-3 sm:text-xl md:text-2xl">
+            For Instructors
+          </p>
+          <hr className="w-1/2 sm:w-3/4 md:w-5/6 mx-auto text-gray-400"></hr>
+          <p className="text-md font-opensans pt-4">instruct@ascended.com</p>
+        </div>
+        <div className="contactDiv">
+          <p className="text-lg font-bold pb-3 sm:text-xl md:text-2xl">
+            For Business
+          </p>
+          <hr className="w-1/2 sm:w-3/4 md:w-5/6 mx-auto text-gray-400"></hr>
+          <p className="text-md font-opensans pt-4">business@ascended.com</p>
+        </div>
+        <div className="contactDiv">
+          <p className="text-lg font-bold pb-3 sm:text-xl md:text-2xl">
+            For Partners and Affiliates
+          </p>
+          <hr className="w-1/2 sm:w-3/4 md:w-5/6 mx-auto text-gray-400"></hr>
+          <p className="text-md font-opensans pt-4">partner@ascended.com</p>
+        </div>
+        <div className="contactDiv">
+          <p className="text-lg font-bold pb-3 sm:text-xl md:text-2xl">
+            For Investors
+          </p>
+          <hr className="w-1/2 sm:w-3/4 md:w-5/6 mx-auto text-gray-400"></hr>
+          <p className="text-md font-opensans pt-4">invest@ascended.com</p>
+        </div>
+        <div className="contactDiv">
+          <p className="text-lg font-bold pb-3 sm:text-xl md:text-2xl">
+            For Investors
+          </p>
+          <hr className="w-1/2 sm:w-3/4 md:w-5/6 mx-auto text-gray-400"></hr>
+          <p className="text-md font-opensans pt-4">invest@ascended.com</p>
+        </div>
+      </div>
+      <div className="pt-[10vh] text-xs text-center">
+        <p>2025 - AscendEd&trade;</p>
+      </div>
+
+
+
+ course.tsx
+
+ return (
+    <div className="h-screen">
+      <Navbar />
+      <div className="bg-purple-950 w-full min-h-full flex justify-center p-10">
+        <div className="flex text-center md:text-left justify-center md:justify-start bg-gray-900 my-auto w-7/8 min-h-full rounded-4xl p-8 md:p-15">
+          <div className="w-3/4 md:pr-5 xl:pr-20 text-center md:text-left md:block">
+            <p className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold font-opensans object-center">
+              {course?.name}
+            </p>
+            <p className="text-base md:text-md lg:text-xl xl:text-2xl font-opensans pt-4">
+              {course?.desc}
+            </p>
+            <Rating
+              className="pt-3 xl:text-xl"
+              rate={typeof course?.rating === "number" ? course?.rating : 0}
+              label={true}
+            />
+            <div className="pt-4 xl:pt-8 w-full">
+              <button className="buttonclass mx-auto">
+                <p className="font-opensans">Get Started</p>
+              </button>
+            </div>
+          </div>
+          <div className="w-1/2 hidden md:block">
+            <img
+              src={`.${course?.ImgSrc}`}
+              className="w-full rounded-3xl"
+            ></img>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+      

@@ -1,16 +1,21 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 @import 'tailwindcss';
 
+html, body, #root {
+  height: 100%;
+}
+
+
 @theme{
   --font-opensans: "Open Sans", sans-serif
 }
 
 .logo{
-  @apply text-xl pt-1.5 sm:pt-1 md:pt-0 lg:pt-1.5 sm:text-xl md:text-2xl lg:text-4xl text-purple-500 font-semibold font-opensans
+  @apply text-xl sm:text-xl md:text-2xl lg:text-4xl text-purple-700 font-semibold font-opensans
 }
 
 .navbarText{
-  @apply lg:text-xl md:text-base sm:text-sm text-[12px] text-purple-500 font-semibold whitespace-nowrap pt-2 md:pt-0.5 lg:pt-2
+  @apply xl:text-2xl lg:text-xl md:text-base sm:text-sm text-[12px] text-purple-700 font-semibold
 }
 
 .contactDiv{
@@ -18,5 +23,5 @@
 }
 
 .buttonclass{
-  @apply bg-purple-900 font-opensans font-bold px-4 py-2 rounded-lg
+  @apply bg-purple-900 font-opensans font-bold px-4 py-2 rounded-lg text-white
 }
