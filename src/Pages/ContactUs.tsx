@@ -5,7 +5,7 @@ const ContactUs = () => {
     <div>
       <Navbar />
       <div className="flex p-[calc(3vh+3vw)]">
-        <div className="hidden bg-[url('../src/assets/ContactUsNew.png')] w-4/7 mr-20 h-screen md:flex text-center items-center px-10 rounded-4xl">
+        <div className="hidden bg-[url('../src/assets/ContactUsNew.png')] my-auto w-4/7 mr-20 h-screen md:flex text-center items-center px-10 rounded-4xl">
           <p className="mx-auto font-opensans font-bold text-white opacity-45 md:text-5xl lg:text-6xl xl:text-8xl">AscendED</p>
         </div>
         <div className="text-center w-full sm:px-7 md:px-0 md:w-3/7">
