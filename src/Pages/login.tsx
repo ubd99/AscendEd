@@ -4,18 +4,18 @@ const Login = () => {
   return (
     <div>
       <Navbar />
-      <div className="flex justify-center w-full h-screen">
+      <div className="flex justify-center w-full h-screen p-[calc(3vh+3vw)] lg:px-[calc(5vw+5vh)]">
         <img
           src="./src/assets/signin.png"
-          className="hidden sm:block w-[calc(25vw+25vh)] h-[calc(15vw+15vh)] my-auto"
+          className="hidden sm:block w-3/7 my-auto mx-auto"
         ></img>
-        <div className="w-1/2 text-center lg:p-3 sm:w-5/7 lg:w-5/7 xl:w-4/7 my-auto">
+        <div className="w-1/2 text-center lg:p-3 sm:w-full my-auto mx-auto">
           <p className="font-bold sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-purple-700">
             Let the journey begin.
             <br />
             You can start by signing in
           </p>
-          <div className="mx-auto sm:w-5/7 lg:w-5/7 xl:w-4/7 ">
+          <div className="mx-auto sm:w-5/7 xl:4/7">
             <form className="pt-10 space-y-3">
               <div className="text-left">
                 <label htmlFor="em">

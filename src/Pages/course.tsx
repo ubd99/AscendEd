@@ -20,8 +20,8 @@ const Course = () => {
               <button className="buttonclass">Enroll Now</button>
             </div>
           </div>
-          <div className="order-1 pt-5 pb-15 md:px-0 md:order-2 md:w-1/2">
-            <img src={course?.ImgSrc} className="rounded-4xl"/>
+          <div className="order-1 md:order-2 md:w-1/2 flex justify-center">
+            <img src={course?.ImgSrc} className="mx-auto md:w-3/4 rounded-4xl object-cover"/>
           </div>
         </div>
       </div>

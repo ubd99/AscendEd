@@ -24,7 +24,7 @@ body,
 }
 
 .buttonclass {
-  @apply bg-purple-900 font-opensans font-bold px-4 py-2 rounded-lg text-white;
+  @apply bg-purple-900 font-opensans text-xs sm:text-sm md:text-base font-bold px-3 md:px-4 py-2 rounded-lg text-white;
 }
 
 .headertext {

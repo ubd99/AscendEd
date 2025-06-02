@@ -6,14 +6,14 @@ const Home = ()=>{
     return (
         <div className='w-full'>
             <Navbar/>
-            <div className='text-center p-[calc(2vh+2vw)] lg:px-[calc(5vw+5vh)] pb-50 sm:flex sm:text-left'>
+            <div className='text-center p-[calc(3vh+3vw)] lg:px-[calc(5vw+5vh)] pb-50 sm:flex sm:text-left'>
                 <div className='sm:w-[50vw] my-auto space-y-[2.5vh]'>
                     <p className='font-semibold font-opensans headertext'>AscendEd - Courses that help you grow</p>
                     <p className='text-[14px] font-opensans paratext'>Unlock your potential -<br/>learn anytime, anywhere.<br/>Expert-led online courses designed to elevate your skills and your future.</p>               
                 </div>
                 <div className='w-full pt-5 mx-auto sm:pl-30'>
-                    <img src='./src/assets/home.png' className="mx-auto rounded-3xl sm:mx-0 sm:ml-auto h-fit w-full md:w-[calc(25vw+15vh)] lg:w-full object-cover overflow-hidden"></img>
-                    <div className='flex w-full mt-8'>
+                    <img src='./src/assets/home.png' className="mx-auto rounded-3xl sm:mx-0 sm:ml-auto h-fit w-full md:w-[calc(25vw+15vh)] lg:w-9/10 object-cover overflow-hidden"></img>
+                    <div className='flex ml-auto sm:w-full lg:w-9/10 mt-8'>
                         <img className='w-1/2 rounded-xl object-cover' src='./src/assets/study.png'/>
                         <img className='w-1/2 rounded-xl object-cover' src='./src/assets/study2.png'/>
                     </div>
