@@ -6,6 +6,7 @@ type User = {
     email : string,
     password : string,
     phone : number,
+    loggedIn : boolean
 }
 
 const UseAuthStore = create<User>((set)=>({
@@ -14,12 +15,23 @@ const UseAuthStore = create<User>((set)=>({
     email : "email",
     password : "password",
     phone : 12345678910,
+    loggedIn : false,
     login : (em: string, pass: string) => {
         set((state)=>({
             email : em,
             password : pass,
             name : "nametobefetched",
-            phone : 12345678901
+            phone : 12345678901,
+            loggedIn : true
+        }))
+    },
+    logout : () => {
+        set((state)=>({
+            loggedIn : false,
+            name : " ",
+            email : " ",
+            password : " ",
+            phone : 0,
         }))
     }
 }))
