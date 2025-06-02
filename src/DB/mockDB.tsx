@@ -3,6 +3,10 @@ interface Icourses {
     name : string,
     desc : string,
     rating : number,
+    chapter1: string,
+    chapter2: string,
+    chapter3: string,
+    chapter4: string,
     ImgSrc : string
 }
 
@@ -25,6 +29,10 @@ const courses : Array<Icourses> = [
         name : "Artificial Intelligence",
         desc : "Explore how machines learn and make decisions. This course covers core AI concepts like machine learning, neural networks, and real-world applications—no experience required.",
         rating : 4.5,
+        chapter1: "Introduction to AI",
+        chapter2: "AI and its types",
+        chapter3: "Machine Learning basics",
+        chapter4: "Future of AI",
         ImgSrc : "../src/assets/AICourse.png"
     },
     {
@@ -32,6 +40,10 @@ const courses : Array<Icourses> = [
         name : "Python",
         desc : "This course introduces the basics of Python for web development, automation, data analysis, scripting, and problem-solving—no experience needed.",
         rating : 4.7,
+        chapter1: "Introduction to Python",
+        chapter2: "Variables in Python",
+        chapter3: "Python Functions",
+        chapter4: "Python Classes",
         ImgSrc : "../src/assets/Py.png"
     },
     {
@@ -39,6 +51,10 @@ const courses : Array<Icourses> = [
         name : "Cybersecurity",
         desc : "This course covers the fundamentals of cybersecurity, including network security, threat analysis, cryptography, and ethical hacking—no prior experience required.",
         rating : 4.4,
+        chapter1: "Introduction to Cybersecurity",
+        chapter2: "Cyber Threats and Attacks",
+        chapter3: "System and Network Security",
+        chapter4: "Cyber Hygiene and Best Practices",
         ImgSrc : "../src/assets/CY.jpg"
     }
 ]
