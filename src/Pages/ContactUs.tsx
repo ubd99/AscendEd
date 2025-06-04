@@ -55,7 +55,7 @@ const ContactUs = () => {
                 id="em"
                 type="text"
                 placeholder="someone@example.com"
-                className="my-5 p-3 w-2/3 border-gray-400 border-2 rounded-xl"
+                className="my-5 p-3 w-full border-gray-400 border-2 rounded-xl"
               ></input>
               <label htmlFor="msg">
                 <p className="pt-7 font-opensans md:text-sm lg:text-lg xl:text-xl">

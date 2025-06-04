@@ -7,7 +7,7 @@ const Home = ()=>{
         <div className='w-full'>
             <Navbar/>
             <div className='text-center p-[calc(3vh+3vw)] lg:px-[calc(5vw+5vh)] pb-50 grid sm:flex sm:text-left'>
-                <div className='sm:w-[50vw] order-2 pt-5 sm:pt-0 sm:order-1 my-auto space-y-[2.5vh]'>
+                <div className='sm:w-[50vw] order-2 sm:order-1 pt-5 sm:pt-0 my-auto space-y-[2.5vh]'>
                     <p className='font-semibold font-opensans headertext'>AscendEd - Courses that help you grow</p>
                     <p className='text-[14px] font-opensans paratext'>Unlock your potential -<br/>learn anytime, anywhere.<br/>Expert-led online courses designed to elevate your skills and your future.</p>               
                 </div>
@@ -28,7 +28,7 @@ const Home = ()=>{
                     <p className='pb-10 text-center sm:text-left text-base xl:pl-8 text-[14px] font-opensans paratext'>Stay ahead in a fast-changing world by investing in the right knowledge. Our expertly curated courses are designed to equip you with the in-demand skills you need to thrive—today and tomorrow.</p>
                 </div>
             </div>
-            <div className='flex space-y-10 space-x-5 lg:space-x-10 justify-center px-3 sm:px-[calc(5vw+5vh)] pt-20 flex-wrap'>
+            <div className='flex space-y-10 sm:space-x-5 lg:space-x-10 justify-center px-3 sm:px-[calc(5vw+5vh)] pt-20 flex-wrap'>
                 {courses.map((e)=>{
                     return <Course_card id={e.id}/>
                 })}
