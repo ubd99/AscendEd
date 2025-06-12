@@ -1,7 +1,8 @@
 import { create } from "zustand"
 
 type User = {
-    name : string,
+    f_name : string,
+    l_name : string,
     username : string,
     email : string,
     password : string,
@@ -10,7 +11,8 @@ type User = {
 }
 
 const UseAuthStore = create<User>((set)=>({
-    name : "name",
+    f_name : "f_name",
+    l_name : "l_name",
     username : "username",
     email : "email",
     password : "password",
@@ -20,7 +22,8 @@ const UseAuthStore = create<User>((set)=>({
         set((state)=>({
             email : em,
             password : pass,
-            name : "nametobefetched",
+            f_name : "fnametobefetched",
+            l_name : "lnametobefetched",
             phone : 12345678901,
             loggedIn : true
         }))
@@ -28,7 +31,8 @@ const UseAuthStore = create<User>((set)=>({
     logout : () => {
         set((state)=>({
             loggedIn : false,
-            name : " ",
+            f_name : " ",
+            l_name : " ",
             email : " ",
             password : " ",
             phone : 0,

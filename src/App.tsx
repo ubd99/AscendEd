@@ -4,6 +4,7 @@ import { About } from "./Pages/About";
 import { ContactUs } from "./Pages/ContactUs";
 import { Login } from "./Pages/login";
 import { Course } from "./Pages/course";
+import { Signup } from "./Pages/signup";
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
             <Route path="/about" element={<About/>}/>
             <Route path="/contact" element={<ContactUs/>}/>
             <Route path="/signin" element={<Login/>}/>
+            <Route path="/signup" element={<Signup/>}/>
             <Route path="/course/:id" element={<Course/>}/>
           </Routes>
         </BrowserRouter>

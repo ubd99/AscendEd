@@ -1,7 +1,48 @@
 import { Navbar } from "../Components/Navbar";
-import { FaGoogle, FaFacebook, FaApple } from "react-icons/fa";
+import { loginAPI } from "../API/loginAPI";
+import { useNavigate } from "react-router-dom";
+import { useState, type ChangeEvent, type EventHandler } from "react";
+import type { User } from "../interfaces/User";
 
 const Login = () => {
+  const nav = useNavigate();
+  const [sub, setSub] = useState<boolean>(false);
+  const fields = {
+    email: "",
+    password: "",
+  };
+  const [err, setErr] = useState({
+    email: true,
+    password: true,
+  });
+  const [values, setValues] = useState(fields);
+  const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value });
+
+    if(name === "password" && value.length < 8){
+      setErr({...err, [name] : true})
+    }else if(name === "email" && !(value.includes("@") && value.includes("."))){
+      setErr({...err, [name] : true})
+    }else setErr({...err, [name] : false})
+  };
+
+  const subHandler = async(e : React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if(Object.values(err).some((val) => val===true)){
+      setSub(true);
+      return null;
+    }else{
+      const user: User = {
+        email : values.email,
+        password : values.password,
+        f_name : " ",
+        l_name : " ",
+        uid : " ",
+      }
+      await loginAPI(user);
+    }
+  }
   return (
     <div>
       <Navbar />
@@ -42,38 +83,58 @@ const Login = () => {
             </div>
           </div>
           <div className="mx-auto sm:w-5/7 xl:4/7">
-            <form className="pt-10 space-y-3">
+            <form className="pt-10 space-y-3" onSubmit={subHandler}>
               <div className="text-left">
-                <label htmlFor="em">
+                <label htmlFor="email">
                   <p className="font-opensans text-md px-1">E-mail</p>
                 </label>
               </div>
               <input
-                id="em"
+                id="email"
+                name="email"
+                value={values.email}
                 type="text"
                 placeholder="someone@example.com"
                 className="w-full p-2 lg:p-3 border-2 border-gray-600 rounded-xl"
+                onChange={changeHandler}
               />
+              {err.email && sub ? <p className="text-xs text-red-600">Please enter a valid email</p> : null}
               <div />
               <div className="text-left">
-                <label htmlFor="pswd">
+                <label htmlFor="password">
                   <p className="font-opensans text-md px-1">Password</p>
                 </label>
               </div>
               <input
-                id="pswd"
+                id="password"
+                name="password"
+                value={values.password}
                 type="password"
-                placeholder="************"
+                placeholder="*********"
+                onChange={changeHandler}
                 className="w-full p-2 lg:p-3 border-2 border-gray-600 rounded-xl"
               />
+              {err.password && sub ? <p className="text-xs text-red-600">Password must be 8 characters or more</p> : null}
               <div className="flex justify-end pb-5">
                 <button onClick={() => {}}>
                   <p className="underline text-purple-800">Forgot Password?</p>
                 </button>
               </div>
               <div className="flex justify-center space-x-10">
-                <button className="buttonclass">Login</button>
-                <button className="buttonclass">Sign-up</button>
+                <button
+                  className="buttonclass"
+                  type="submit"
+                >
+                  Login
+                </button>
+                <button
+                  className="buttonclass"
+                  onClick={() => {
+                    nav("/signup");
+                  }}
+                >
+                  Sign-up
+                </button>
               </div>
             </form>
           </div>
