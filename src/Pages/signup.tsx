@@ -2,11 +2,12 @@ import { useState } from "react";
 import { Navbar } from "../Components/Navbar";
 import { useNavigate } from "react-router-dom";
 import type { User } from "../interfaces/User";
-import { ulid } from "ulid";
-import { SignupAPI } from "../API/signupAPI";
+import { useAuthStore } from "../stores/useAuthStore";
 
 const Signup = () => {
   const initFormData = { fn: "", ln: "", em: "", psw: "" };
+  const setUserData = useAuthStore((state)=> state.setUserData);
+  const signupUser = useAuthStore((state)=> state.signup)
   const [values, setValues] = useState(initFormData);
   const [err, setErr] = useState({
     fn: true,
@@ -38,15 +39,15 @@ const Signup = () => {
       return null;
     } else {
       const user: User = {
-        f_name : values.fn,
-        l_name : values.ln,
-        email : values.em,
-        password : values.psw,
-        uid : `user-${ulid()}`
+        email: values.em,
+        f_name: values.fn,
+        l_name: values.ln,
       }
-      console.log(user);
-      await SignupAPI(user);
-      console.log('sent to SignupAPI')
+      setUserData(user);
+      const response = await signupUser(values.psw);
+      if(response){
+        console.log("success from signup.tsx");
+      }
     }
   };
 

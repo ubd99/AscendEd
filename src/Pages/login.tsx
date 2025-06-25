@@ -1,12 +1,20 @@
 import { Navbar } from "../Components/Navbar";
-import { loginAPI } from "../API/loginAPI";
 import { useNavigate } from "react-router-dom";
-import { useState, type ChangeEvent, type EventHandler } from "react";
+import { useState, type ChangeEvent } from "react";
 import type { User } from "../interfaces/User";
+import { useAuthStore } from "../stores/useAuthStore";
+import { useToken } from "../stores/useToken";
 
 const Login = () => {
   const nav = useNavigate();
+  const setToken = useToken((state) => state.setToken);
   const [sub, setSub] = useState<boolean>(false);
+  const [acErr, setAcErr] = useState<boolean>(false);
+  const login = useAuthStore((state) => state.login);
+  const name = useAuthStore((state) => state.f_name);
+  const profhandle = useToken((state) => state.profileAPI);
+  const adminHandle = useToken((state) => state.adminAPI);
+
   const fields = {
     email: "",
     password: "",
@@ -16,33 +24,53 @@ const Login = () => {
     password: true,
   });
   const [values, setValues] = useState(fields);
+
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
 
-    if(name === "password" && value.length < 8){
-      setErr({...err, [name] : true})
-    }else if(name === "email" && !(value.includes("@") && value.includes("."))){
-      setErr({...err, [name] : true})
-    }else setErr({...err, [name] : false})
+    if (name === "password" && value.length < 8) {
+      setErr({ ...err, [name]: true });
+    } else if (
+      name === "email" &&
+      !(value.includes("@") && value.includes("."))
+    ) {
+      setErr({ ...err, [name]: true });
+    } else setErr({ ...err, [name]: false });
   };
 
-  const subHandler = async(e : React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if(Object.values(err).some((val) => val===true)){
-      setSub(true);
-      return null;
-    }else{
-      const user: User = {
-        email : values.email,
-        password : values.password,
-        f_name : " ",
-        l_name : " ",
-        uid : " ",
+  const subHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault();
+      if (Object.values(err).some((val) => val === true)) {
+        setSub(true);
+        return null;
+      } else {
+        const user: User = {
+          email: values.email,
+          password: values.password,
+        };
+        const loginData = await login(user);
+        if (loginData.token) {
+          console.log(
+            "from login subhandler: user is ",
+            JSON.stringify(loginData.user),
+            ", useAuthStore.state.name is ",
+            name
+          );
+          setToken(loginData.token);
+          console.log(loginData.token);
+          nav('/');
+        } else if (loginData.status === 401) {
+          setAcErr(true);
+          console.log("Account does not exist");
+        }
       }
-      await loginAPI(user);
+    } catch (e) {
+      setAcErr(true);
+      console.log("error in login.tsx: ", e);
     }
-  }
+  };
   return (
     <div>
       <Navbar />
@@ -62,7 +90,7 @@ const Login = () => {
           </p>
           <div className="flex justify-center pt-5 space-x-3">
             <div
-              onClick={() => {}}
+              onClick={adminHandle}
               style={{ cursor: "pointer" }}
               className="flex shadow-gray-500 shadow-xs rounded-lg py-0.5 pr-1 md:p-1.5"
             >
@@ -72,7 +100,7 @@ const Login = () => {
               <p className="my-auto text-sm">Login with Google</p>
             </div>
             <div
-              onClick={() => {}}
+              onClick={profhandle}
               style={{ cursor: "pointer" }}
               className="flex shadow-gray-500 shadow-xs rounded-lg py-0.5 pr-1 md:p-1.5"
             >
@@ -98,7 +126,11 @@ const Login = () => {
                 className="w-full p-2 lg:p-3 border-2 border-gray-600 rounded-xl"
                 onChange={changeHandler}
               />
-              {err.email && sub ? <p className="text-xs text-red-600">Please enter a valid email</p> : null}
+              {err.email && sub ? (
+                <p className="text-xs text-red-600">
+                  Please enter a valid email
+                </p>
+              ) : null}
               <div />
               <div className="text-left">
                 <label htmlFor="password">
@@ -114,17 +146,23 @@ const Login = () => {
                 onChange={changeHandler}
                 className="w-full p-2 lg:p-3 border-2 border-gray-600 rounded-xl"
               />
-              {err.password && sub ? <p className="text-xs text-red-600">Password must be 8 characters or more</p> : null}
+              {err.password && sub ? (
+                <p className="text-xs text-red-600">
+                  Password must be 8 characters or more
+                </p>
+              ) : null}
               <div className="flex justify-end pb-5">
                 <button onClick={() => {}}>
                   <p className="underline text-purple-800">Forgot Password?</p>
                 </button>
               </div>
+              {acErr ? (
+                <p className="text-xs text-red-600 font-semibold">
+                  *Invalid Credentials
+                </p>
+              ) : null}
               <div className="flex justify-center space-x-10">
-                <button
-                  className="buttonclass"
-                  type="submit"
-                >
+                <button className="buttonclass" type="submit">
                   Login
                 </button>
                 <button

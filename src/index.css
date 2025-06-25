@@ -25,6 +25,7 @@ body,
 
 .buttonclass {
   @apply bg-purple-900 font-opensans text-xs sm:text-sm md:text-base font-bold px-3 md:px-4 py-2 rounded-lg text-white;
+  cursor: pointer;
 }
 
 .headertext {
@@ -33,4 +34,8 @@ body,
 
 .paratext {
   @apply text-[14px] font-opensans sm:text-base md:text-[1.06rem] lg:text-lg xl:text-xl;
+}
+
+.shadow{
+  box-shadow: 0px 0px 20px rgba(0,0,0,0.5);
 }
