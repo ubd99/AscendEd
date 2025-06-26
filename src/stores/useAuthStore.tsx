@@ -9,6 +9,7 @@ type Tuser = {
   email: string;
   uid: string;
   token: string;
+  isadmin: boolean;
   hydrated: boolean;
   isLoggedIn: boolean;
   setLoggedIn: (loginStatus: boolean) => void;
@@ -26,6 +27,7 @@ const useAuthStore = create<Tuser>()(
       token: " ",
       uid: " ",
       isLoggedIn: false,
+      isadmin: false,
       hydrated: false,
       setUserData: (user) => {
         set((state) => ({
@@ -48,6 +50,7 @@ const useAuthStore = create<Tuser>()(
             l_name: res.data.user.l_name,
             email: res.data.user.email,
             uid: res.data.user.uid,
+            isadmin: res.data.user.isadmin,
             isLoggedIn: true,
             token: res.data.token,
           }));

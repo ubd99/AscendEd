@@ -1,12 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Sidebar } from "./sidebar";
 import { useAuthStore } from "../stores/useAuthStore";
-import { useToken } from "../stores/useToken";
 
 const Navbar = () => {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
-  const setUserData = useAuthStore((state) => state.setUserData);
-  const setToken = useToken((state) => state.setToken);
+  const isAdmin = useAuthStore((state) => state.isadmin);
+  const nav = useNavigate();
   return (
     <div className="bg-transparent flex items-center w-full px-8 sm:h-5 sm:min-h-20 md:h-10 lg:h-15 overflow-auto">
       <div className="w-full">
@@ -22,23 +21,18 @@ const Navbar = () => {
               <p className="navbarText">Contact Us</p>
             </Link>
             {isLoggedIn ? (
-              <Link
-                to="/"
+              <div
                 onClick={() => {
-                  setUserData({
-                    f_name: " ",
-                    l_name: " ",
-                    email: " ",
-                    password: " ",
-                    token: " ",
-                    isLoggedIn: false,
-                    uid: " ",
-                  });
-                  localStorage.clear();
+                  if (isAdmin) {
+                    nav("/admin/dashboard");
+                  } else {
+                    nav("/user/dashboard");
+                  }
                 }}
+                style={{ cursor: "pointer" }}
               >
-                <p className="navbarText">Log out</p>
-              </Link>
+                <p className="navbarText">Dashboard</p>
+              </div>
             ) : (
               <Link to="/signin">
                 <p className="navbarText">Sign In</p>

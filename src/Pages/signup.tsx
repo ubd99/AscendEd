@@ -5,7 +5,7 @@ import type { User } from "../interfaces/User";
 import { useAuthStore } from "../stores/useAuthStore";
 
 const Signup = () => {
-  const initFormData = { fn: "", ln: "", em: "", psw: "" };
+  const initFormData = { fn: "", ln: "", em: "", psw: ""};
   const setUserData = useAuthStore((state)=> state.setUserData);
   const signupUser = useAuthStore((state)=> state.signup)
   const [values, setValues] = useState(initFormData);

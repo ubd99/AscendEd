@@ -26,7 +26,7 @@ const UserDashboard = () => {
     uid: useAuthStore((state) => state.uid),
     password: "********",
   };
-
+  const setUserData = useAuthStore((state)=> state.setUserData);
   const nav = useNavigate();
   const text = "text-white font-opensans text-sm font-semibold";
   const options = {
@@ -72,7 +72,25 @@ const UserDashboard = () => {
               </div>
               <div className="flex pt-10 justify-between">
                 <button className="buttonclass">Edit Profile</button>
-                <button className="buttonclass ml-auto">Settings</button>
+                <button className="buttonclass">Settings</button>
+                <button
+                  className="buttonclass"
+                  onClick={() => {
+                    setUserData({
+                      f_name: " ",
+                      l_name: " ",
+                      email: " ",
+                      password: " ",
+                      token: " ",
+                      isLoggedIn: false,
+                      uid: " ",
+                    });
+                    localStorage.clear();
+                    nav('/');
+                  }}
+                >
+                  Logout
+                </button>
               </div>
             </div>
 

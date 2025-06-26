@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useCourse } from "../stores/useCourse";
 
 const Test = () => {
@@ -7,7 +8,8 @@ const Test = () => {
       <button
         className="buttonclass"
         onClick={async() => {
-          await getCourse(3);
+          let res = await axios.get('http://localhost:5000/test');
+          console.log(JSON.stringify(res.data));
         }}
       >
         Test
