@@ -12,6 +12,10 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import { useEffect, useState } from "react";
+import { useCourse } from "../../stores/useCourse";
+import { FaStar } from "react-icons/fa";
+import { useEnrollStore } from "../../stores/enrollStore";
 
 ChartJs.register(
   CategoryScale,
@@ -31,6 +35,26 @@ const AdminDashboard = () => {
     password: "********",
   };
   const setUserData = useAuthStore((state) => state.setUserData);
+
+  const date = new Date().getDate();
+  const last7Days = [
+    date - 6,
+    date - 5,
+    date - 4,
+    date - 3,
+    date - 2,
+    date - 1,
+    `Today (${date})`,
+  ];
+
+  const getWeeklyEnrollments = useEnrollStore(
+    (state) => state.getWeeklyEnrollments
+  );
+
+  const getCourseEnrolls = useCourse((state) => state.getCourseEnrolls);
+  const [cEnroll, setcEnroll] = useState<any>();
+
+  const [enrolls, setEnrolls] = useState<any>();
   const nav = useNavigate();
   const text = "text-white font-opensans text-sm font-semibold";
   const options = {
@@ -48,6 +72,33 @@ const AdminDashboard = () => {
       },
     },
   };
+  const getPublicCourses = useCourse((state) => state.getPublicCourses);
+  const [courses, setCourses] = useState<any>();
+  useEffect(() => {
+    const fetchCourses = async () => {
+      const res = await getPublicCourses(8);
+      const eRes = await getWeeklyEnrollments();
+      if (res && res.length > 0) {
+        const crs = await Promise.all(
+          res.map(async (c: any) => {
+            const ceRes = await getCourseEnrolls(c.id, "number");
+            return {
+              id: c.id,
+              name: c.name,
+              description: c.description,
+              belongsTo: c.belongsTo,
+              enrolls: ceRes,
+            };
+          })
+        );
+        setCourses(crs);
+        console.log("crs is:", crs, "and courses are", courses);
+      }
+      if (eRes) setEnrolls(eRes);
+    };
+
+    fetchCourses();
+  }, []);
   return (
     <div>
       <Navbar />
@@ -90,7 +141,7 @@ const AdminDashboard = () => {
                       uid: " ",
                     });
                     localStorage.clear();
-                    nav('/');
+                    nav("/");
                   }}
                 >
                   Logout
@@ -102,11 +153,21 @@ const AdminDashboard = () => {
               <Bar
                 options={options}
                 data={{
-                  labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                  labels: last7Days,
                   datasets: [
                     {
-                      label: "New Enrolments This Week",
-                      data: [10, 20, 30, 40, 50, 60, 70],
+                      label: "New Enrollments (Last 7 Days)",
+                      data: enrolls
+                        ? [
+                            enrolls["tMinus6"],
+                            enrolls["tMinus5"],
+                            enrolls["tMinus4"],
+                            enrolls["tMinus3"],
+                            enrolls["tMinus2"],
+                            enrolls["tMinus1"],
+                            enrolls["tMinus0"],
+                          ]
+                        : [0, 0, 0, 0, 0, 0, 0],
                       backgroundColor: "rgba(120,100,50,1)",
                     },
                   ],
@@ -127,14 +188,41 @@ const AdminDashboard = () => {
                 >
                   Add a new course
                 </button>
-                <button className="buttonclass">Manage Courses</button>
+                <button
+                  className="buttonclass"
+                  onClick={() => {
+                    nav("/admin/manageCourses");
+                  }}
+                >
+                  Manage Courses
+                </button>
               </div>
             </div>
             <div className="p-5 bg-purple-500 rounded-4xl shadow grow">
               <p className="paratext font-semibold">Recent Course Stats</p>
-              {Array.from({ length: 10 }).map((_, i) => {
-                return <p>Course {i}</p>;
-              })}
+              <div className="overflow-scroll scrollbar-hidden">
+                {Array.isArray(courses)
+                  ? courses.map((c: any) => {
+                      return (
+                        <div className="my-4 flex justify-between">
+                          <div className="w-1/3 flex items-center">
+                            <p className="font-semibold my-auto">{c.name}</p>
+                          </div>
+                          <div className="w-1/3 flex justify-center">
+                            <FaStar className="my-auto text-yellow-400" />{" "}
+                            <p className="font-semibold my-auto ml-2">
+                              {c.rating ? c.rating : 0}
+                            </p>
+                          </div>
+                          <div className="w-1/3 flex flex-col justify-center">
+                            <p className="font-semibold mx-auto">Enrolled:</p>
+                            <p className="mx-auto">{c.enrolls}</p>
+                          </div>
+                        </div>
+                      );
+                    })
+                  : null}
+              </div>
             </div>
           </div>
         </div>

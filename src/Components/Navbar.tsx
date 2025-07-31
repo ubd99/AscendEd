@@ -11,7 +11,10 @@ const Navbar = () => {
       <div className="w-full">
         <nav className="flex space-x-6 w-full pt-3 sm:pt-0.5 md:pt-1 lg:pt-1">
           <Link to="/">
-            <p className="logo pl-2">AscendED</p>
+            <div className="flex items-stretch">
+              <img className="h-7 md:h-8 lg:h-9 xl:max-h-10" src="/src/assets/logo.png" />
+              <p className="logo pl-2">AscendED</p>
+            </div>
           </Link>
           <div className="hidden sm:flex justify-end w-full space-x-8 pr-2 sm:pl-5">
             <Link to="/about">

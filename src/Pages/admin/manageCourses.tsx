@@ -1,0 +1,107 @@
+import { useEffect, useState } from "react";
+import { Navbar } from "../../Components/Navbar";
+import { useCourse } from "../../stores/useCourse";
+import { useNavigate } from "react-router-dom";
+
+const CManage = () => {
+  const nav = useNavigate();
+  const getPublicCourses = useCourse((state) => state.getPublicCourses);
+  const getCourseEnrolls = useCourse((state) => state.getCourseEnrolls);
+  const [name, setName] = useState<string>();
+  const [Desc, setDesc] = useState<string>();
+  const [courses, setCourses] = useState<any>();
+  useEffect(() => {
+    const fetchCourses = async () => {
+      const res = await getPublicCourses(0);
+      if (res && res.length > 0) {
+        const crs = await Promise.all(
+          res.map(async (c: any) => {
+            const ceRes = await getCourseEnrolls(c.id, "number");
+            return {
+              id: c.id,
+              name: c.name,
+              description: c.description,
+              belongsTo: c.belongsTo,
+              enrolls: ceRes,
+              createdAt: c.createdAt,
+              updatedAt: c.updatedAt,
+            };
+          })
+        );
+        setCourses(crs);
+        console.log("Courses are: ", courses);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+  return (
+    <div>
+      <Navbar />
+      <div className="p-[calc(3vh+3vw)]">
+        <div className="flex justify-between px-30">
+          <div className="">
+            <p className="font-semibold">Total Courses:</p>
+            <p className="headertext font-semibold">10000</p>
+          </div>
+          <div className="">
+            <p className="font-semibold">Enrollments:</p>
+            <p className="headertext font-semibold">10000</p>
+          </div>
+          <div className="">
+            <p className="font-semibold">Total videos:</p>
+            <p className="headertext font-semibold">10000</p>
+          </div>
+        </div>
+        <div className="mt-20 px-5 rounded-3xl shadow">
+          <table className="table-fixed w-full border-separate border-spacing-y-10">
+            <thead>
+              <tr className="">
+                <th className="w-1/5 text-purple-800">Title</th>
+                <th className="w-1/5 bordered">Rating</th>
+                <th className="w-1/5 bordered">Enrolled</th>
+                <th className="w-1/5 bordered">Created on</th>
+                <th className="w-1/5 bordered">Last Update</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Array.isArray(courses) ? (
+                courses.map((c: any) => {
+                  return (
+                    <tr
+                      className="rounded-xl shadow-sm shadow-black"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        nav(`/admin/courses/${c.id}`);
+                      }}
+                    >
+                      <td className="w-1/5 text-center p-2 text-purple-800 font-semibold">
+                        {c.name}
+                      </td>
+                      <td className="w-1/5 bordered font-semibold">
+                        {c.rating}
+                      </td>
+                      <td className="w-1/5 bordered font-semibold">
+                        {c.enrolls}
+                      </td>
+                      <td className="w-1/5 bordered font-semibold">
+                        {c.createdAt}
+                      </td>
+                      <td className="w-1/5 bordered font-semibold">
+                        {c.updatedAt}
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export { CManage };

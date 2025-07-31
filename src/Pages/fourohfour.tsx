@@ -1,7 +1,10 @@
+import { Navbar } from "../Components/Navbar"
+
 const FourOhFour = () => {
     return (
         <div>
-            <p>404 not found</p>
+            <Navbar/>
+            <p className="headertext">404 not found</p>
         </div>
     )
 }

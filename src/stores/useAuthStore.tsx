@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { User } from "../interfaces/User";
 import axios from "axios";
+import { axiosJson } from "../api/axios/axios";
 
 type Tuser = {
   f_name: string;
@@ -15,7 +16,7 @@ type Tuser = {
   setLoggedIn: (loginStatus: boolean) => void;
   setUserData: (user: User) => void;
   login: (user: User) => Promise<any>;
-  signup: (password: string) => Promise<any>;
+  signup: (user: User) => Promise<any>;
 };
 
 const useAuthStore = create<Tuser>()(
@@ -36,11 +37,12 @@ const useAuthStore = create<Tuser>()(
           email: user.email,
           uid: user.uid,
           token: user.token,
-          isLoggedIn: user.isLoggedIn
+          isLoggedIn: user.isLoggedIn,
         }));
       },
       login: async (user) => {
-        const res = await axios.post("http://localhost:5000/api/login", {
+        console.log("Logging in");
+        const res = await axiosJson.post("/api/login", {
           email: user.email,
           password: user.password,
         });
@@ -59,24 +61,24 @@ const useAuthStore = create<Tuser>()(
             res.data.user.f_name,
             "has logged in"
           );
-
+          console.log("Logged in");
           return res.data;
         } else {
           return res.data;
         }
       },
       setLoggedIn: (loginState) => {
-        set((state)=>({
-          isLoggedIn: loginState
-        }))
+        set((state) => ({
+          isLoggedIn: loginState,
+        }));
       },
-      signup: async (password) => {
+      signup: async (user) => {
         try {
-          const res = await axios.post("http://localhost:5000/api/signup", {
-            f_name: get().f_name,
-            l_name: get().l_name,
-            email: get().email,
-            password: password,
+          const res = await axiosJson.post("/api/signup", {
+            f_name: user.f_name,
+            l_name: user.l_name,
+            email: user.email,
+            password: user.password,
           });
           if (res.status === 200) {
             console.log("signup success (status:200 - OK)");

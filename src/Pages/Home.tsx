@@ -1,9 +1,24 @@
-import { Navbar } from "../Components/Navbar";
+import { useNavigate } from "react-router-dom";
 import { Course_card } from "../Components/CourseCard";
+import { Navbar } from "../Components/Navbar";
 import { Testimonial } from "../Components/Testimonial";
-import { courses } from "../DB/mockDB";
-import { Outlet } from "react-router-dom";
+import { useCourse } from "../stores/useCourse";
+import { useEffect, useState } from "react";
 const Home = () => {
+  const getCourses = useCourse((state) => state.getPublicCourses);
+  const [courses, setCourse] = useState<any>();
+  const nav = useNavigate();
+  useEffect(() => {
+    const fetchCourses = async () => {
+      const res = await getCourses(3);
+      if (res && res.length > 0) setCourse(res);
+      if (courses) {
+        console.log("Courses are: ", courses);
+      }
+    };
+
+    fetchCourses();
+  }, []);
   return (
     <div className="w-full">
       <Navbar />
@@ -53,9 +68,29 @@ const Home = () => {
         </div>
       </div>
       <div className="flex space-y-10 sm:space-x-5 lg:space-x-10 justify-center px-3 sm:px-[calc(5vw+5vh)] pt-20 flex-wrap">
-        {courses.map((e) => {
-          return <Course_card id={e.id} />;
-        })}
+        {Array.isArray(courses)
+          ? courses.map((c: any) => (
+              <Course_card
+                key={c.id}
+                course={{
+                  title: c.name,
+                  description: c.description,
+                  id: c.id,
+                  rating: !(c.rating === null) ? c.rating : 0,
+                }}
+              />
+            ))
+          : null}
+      </div>
+      <div className="flex justify-center mt-10">
+        <button
+          className="buttonclass"
+          onClick={() => {
+            nav("/exploreCourses");
+          }}
+        >
+          Explore more courses
+        </button>
       </div>
       <div className="px-[calc(5vw+5vh)] text-center pt-40">
         <p className="p-5 text-center text-base font-semibold xl:pl-8 sm:text-lg md:text-xl lg:text-2xl xl:text-4xl font-opensans">

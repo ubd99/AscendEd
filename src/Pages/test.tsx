@@ -8,7 +8,7 @@ const Test = () => {
       <button
         className="buttonclass"
         onClick={async() => {
-          let res = await axios.get('http://localhost:5000/test');
+          const res = await getCourse(0);
           console.log(JSON.stringify(res.data));
         }}
       >

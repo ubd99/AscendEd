@@ -5,9 +5,9 @@ import type { User } from "../interfaces/User";
 import { useAuthStore } from "../stores/useAuthStore";
 
 const Signup = () => {
-  const initFormData = { fn: "", ln: "", em: "", psw: ""};
-  const setUserData = useAuthStore((state)=> state.setUserData);
-  const signupUser = useAuthStore((state)=> state.signup)
+  const initFormData = { fn: "", ln: "", em: "", psw: "" };
+  const setUserData = useAuthStore((state) => state.setUserData);
+  const signupUser = useAuthStore((state) => state.signup);
   const [values, setValues] = useState(initFormData);
   const [err, setErr] = useState({
     fn: true,
@@ -42,10 +42,11 @@ const Signup = () => {
         email: values.em,
         f_name: values.fn,
         l_name: values.ln,
-      }
+        password: values.psw,
+      };
       setUserData(user);
-      const response = await signupUser(values.psw);
-      if(response){
+      const response = await signupUser(user);
+      if (response) {
         console.log("success from signup.tsx");
       }
     }
@@ -90,7 +91,9 @@ const Signup = () => {
                 </div>
                 <div>
                   <label htmlFor="ln">
-                    <p className="pt-3 lg:pt-0 font-opensans text-md">Last Name</p>
+                    <p className="pt-3 lg:pt-0 font-opensans text-md">
+                      Last Name
+                    </p>
                   </label>
                   <input
                     id="ln"

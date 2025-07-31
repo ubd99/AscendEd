@@ -11,6 +11,15 @@ import { RootLayout } from "../Components/rootLayout";
 import { Test } from "../Pages/test";
 import { AdminDashboard } from "../Pages/admin/dashboard";
 import { AddCourse } from "../Pages/admin/addCourse";
+import { CManage } from "../Pages/admin/manageCourses";
+import { AdminCourse } from "../Pages/admin/adminCourse";
+import { AddChapter } from "../Pages/admin/addChapter";
+import { ExploreCourses } from "../Pages/exploreCourses";
+import { ModulePage } from "../Pages/user/modulePage";
+import { AddContent } from "../Pages/admin/addContent";
+import { AdminModulePage } from "../Pages/admin/adminModulePage";
+import { VideoPage } from "../Pages/user/videoPage";
+import { AdminVideoPage } from "../Pages/admin/adminVideoPage";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +56,10 @@ const router = createBrowserRouter([
         element: <Test />,
       },
       {
+        path: "exploreCourses",
+        element: <ExploreCourses />,
+      },
+      {
         path: "user",
         element: <RootLayout />,
         errorElement: <FourOhFour />,
@@ -55,14 +68,23 @@ const router = createBrowserRouter([
             path: "dashboard",
             element: <UserDashboard />,
           },
+          {
+            path: "course/:courseId/:moduleId/content/:contentId",
+            element: <VideoPage />,
+          },
+          {
+            path: "course/module/:moduleId",
+            element: <ModulePage />,
+          },
         ],
         loader: () => {
           const raw = localStorage.getItem("user-store");
           if (raw) {
             const parsed = JSON.parse(raw!);
             const email = parsed?.state?.email;
+            const isadmin = parsed?.state?.isadmin;
             console.log("email is ", email);
-            if (typeof email === "string" && email.includes("@")) {
+            if (!isadmin && typeof email === "string" && email.includes("@")) {
               return null;
             }
             return redirect("/404");
@@ -82,16 +104,41 @@ const router = createBrowserRouter([
           },
           {
             path: "addCourse",
-            element: <AddCourse/>
-          }
+            element: <AddCourse />,
+          },
+          {
+            path: "manageCourses",
+            element: <CManage />,
+          },
+          {
+            path: "courses/:id",
+            element: <AdminCourse />,
+          },
+          {
+            path: "course/module/:moduleId",
+            element: <AdminModulePage />,
+          },
+          {
+            path: "course/:courseId/:moduleId/content/:contentId",
+            element: <AdminVideoPage/>
+          },
+          {
+            path: "addPhase/:id",
+            element: <AddChapter />,
+          },
+          {
+            path: "addContent/:courseId/:chapterId",
+            element: <AddContent />,
+          },
         ],
         loader: () => {
           const raw = localStorage.getItem("user-store");
           if (raw) {
             const parsed = JSON.parse(raw!);
             const email = parsed?.state?.email;
+            const isadmin = parsed?.state?.isadmin;
             console.log("email is ", email);
-            if (typeof email === "string" && email.includes("@")) {
+            if (isadmin && typeof email === "string" && email.includes("@")) {
               return null;
             }
             return redirect("/404");
