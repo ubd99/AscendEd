@@ -7,6 +7,7 @@ import { Loading } from "../../Components/loadingSpinner";
 
 const AddCourse = () => {
   const nav = useNavigate();
+  
   const [sub, setSub] = useState<boolean>(false);
   const fields = {
     title: "",

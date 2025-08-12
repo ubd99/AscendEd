@@ -7,26 +7,15 @@ const AdminVideoPage = () => {
   const param = useParams();
   const getContentSingle = useModuleStore((state) => state.getContentSingle);
   const getContent = useModuleStore((state) => state.getContent);
-  const setModuleData = useModuleStore((state) => state.setModule);
-  const [contents, setContents] = useState<any>();
-  const [content, setContent] = useState<any>();
+  const chapterId = useModuleStore((state) => state.id);
+  const contents = useModuleStore((state) => state.content);
+  const content = useModuleStore((state) => state.contentSingle);
   useEffect(() => {
     const fetchContent = async () => {
-      setModuleData(
-        param.moduleId,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        param.contentId
-      );
       const res = await getContentSingle(param.contentId!);
-      let contentsRes;
       if (res) {
         console.log("from VideoPage: response received from getContentSingle");
-        setContent(res);
-        contentsRes = await getContent(param.moduleId!);
-        setContents(contentsRes);
+        const contentsRes = await getContent(param.moduleId!);
       }
     };
 
@@ -41,13 +30,13 @@ const AdminVideoPage = () => {
           className="font-opensans ml-2 underline text-purple-500 inline"
           style={{ cursor: "pointer" }}
           onClick={() => {
-            nav(`/admin/course/module/${content ? content.chapterId : null}`);
+            nav(`/admin/course/module/${chapterId}`);
           }}
         >
           &lt; back to course
         </p>
         <p className="headertext font-semibold mt-3 ml-3 pb-10">
-          {content ? `Video: ${content.title}` : null}
+          {content ? `Video: ${content.name}` : null}
         </p>
         <div className="flex justify-between">
           <div className="flex flex-col bg-purple-600 shadow w-3/10 p-5 rounded-2xl gap-y-5 overflow-scroll scrollbar-hidden">

@@ -50,11 +50,6 @@ const AdminDashboard = () => {
   const getWeeklyEnrollments = useEnrollStore(
     (state) => state.getWeeklyEnrollments
   );
-
-  const getCourseEnrolls = useCourse((state) => state.getCourseEnrolls);
-  const [cEnroll, setcEnroll] = useState<any>();
-
-  const [enrolls, setEnrolls] = useState<any>();
   const nav = useNavigate();
   const text = "text-white font-opensans text-sm font-semibold";
   const options = {
@@ -73,32 +68,19 @@ const AdminDashboard = () => {
     },
   };
   const getPublicCourses = useCourse((state) => state.getPublicCourses);
-  const [courses, setCourses] = useState<any>();
+  const courses = useCourse((state) => state.courses);
   useEffect(() => {
-    const fetchCourses = async () => {
-      const res = await getPublicCourses(8);
-      const eRes = await getWeeklyEnrollments();
-      if (res && res.length > 0) {
-        const crs = await Promise.all(
-          res.map(async (c: any) => {
-            const ceRes = await getCourseEnrolls(c.id, "number");
-            return {
-              id: c.id,
-              name: c.name,
-              description: c.description,
-              belongsTo: c.belongsTo,
-              enrolls: ceRes,
-            };
-          })
-        );
-        setCourses(crs);
-        console.log("crs is:", crs, "and courses are", courses);
-      }
-      if (eRes) setEnrolls(eRes);
-    };
-
-    fetchCourses();
+    try {
+      const fetchCourses = async () => {
+        const res = await getPublicCourses(8);
+        const eRes = await getWeeklyEnrollments();
+      };
+      fetchCourses();
+    } catch (e) {
+      console.log("Error in getPublicCourse (useEffect):", e);
+    }
   }, []);
+  const enrolls: any = useEnrollStore((state) => state.weeklyEnrollments);
   return (
     <div>
       <Navbar />

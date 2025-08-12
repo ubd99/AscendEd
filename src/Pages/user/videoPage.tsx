@@ -1,32 +1,29 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { Navbar } from "../../Components/Navbar";
 import { useModuleStore } from "../../stores/useModule";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const VideoPage = () => {
   const param = useParams();
   const getContentSingle = useModuleStore((state) => state.getContentSingle);
   const getContent = useModuleStore((state) => state.getContent);
-  const setModuleData = useModuleStore((state) => state.setModule);
-  const [contents, setContents] = useState<any>();
-  const [content, setContent] = useState<any>();
+  const markAsCompleted = useModuleStore((state) => state.markAsCompleted);
+  const checkComplete = useModuleStore((state) => state.checkCompleted);
+  const content = {
+    id: useModuleStore((state) => state.id),
+    title: useModuleStore((state) => state.title),
+    description: useModuleStore((state) => state.description),
+    courseId: useModuleStore((state) => state.courseId),
+    contentSingle: useModuleStore((state) => state.contentSingle),
+    content: useModuleStore((state) => state.content),
+  };
   useEffect(() => {
     const fetchContent = async () => {
-      setModuleData(
-        param.moduleId,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        param.contentId
-      );
       const res = await getContentSingle(param.contentId!);
-      let contentsRes;
       if (res) {
         console.log("from VideoPage: response received from getContentSingle");
-        setContent(res);
-        contentsRes = await getContent(param.moduleId!);
-        setContents(contentsRes);
+        const contentsRes = await getContent(param.moduleId!);
+        const completeRes = await checkComplete(param.contentId!);
       }
     };
 
@@ -41,18 +38,20 @@ const VideoPage = () => {
           className="font-opensans ml-2 underline text-purple-500 inline"
           style={{ cursor: "pointer" }}
           onClick={() => {
-            nav(`/user/course/module/${content ? content.chapterId : null}`);
+            nav(`/user/course/module/${content ? content.id : null}`);
           }}
         >
           &lt; back to course
         </p>
         <p className="headertext font-semibold mt-3 ml-3 pb-10">
-          {content ? `Video: ${content.title}` : null}
+          {content && content.contentSingle
+            ? `Video: ${content.contentSingle?.name}`
+            : null}
         </p>
         <div className="flex justify-between">
           <div className="flex flex-col bg-purple-600 shadow w-3/10 p-5 rounded-2xl gap-y-5 overflow-scroll scrollbar-hidden">
-            {Array.isArray(contents) ? (
-              contents.map((c: any, i) => (
+            {Array.isArray(content.content) ? (
+              content.content.map((c: any, i) => (
                 <div className="flex items-center">
                   <div className="rounded-full h-10 w-10 mr-3 bg-white flex items-center justify-center">
                     <p className="font-bold text-xl text-purple-600">{i + 1}</p>
@@ -76,15 +75,33 @@ const VideoPage = () => {
             className="w-6/10 rounded-3xl max-w-[540px] max-h-[320px] shadow-purple"
           />
         </div>
-        <div className="flex justify-end">
-          <p className="pt-5 pl-3">
-            Uploaded on: {content ? content.createdAt : null}
+        <div className="flex mt-5 justify-between">
+          {content.contentSingle?.completed ? (
+            <p>Completed</p>
+          ) : (
+            <p
+              className="font-opensans text-purple-800 underline"
+              onClick={() => {
+                markAsCompleted(param.contentId!);
+              }}
+              style={{ cursor: "pointer" }}
+            >
+              Mark as completed
+            </p>
+          )}
+          <p className="pl-3">
+            Uploaded on:{" "}
+            {content && content.contentSingle
+              ? content.contentSingle!.createdAt
+              : null}
           </p>
         </div>
         <div className="rounded-2xl bg-purple-300 shadow p-7 mt-5">
           <p className="headertext">Description</p>
           <p className="font-opensans mt-2">
-            {content ? content.description : null}
+            {content && content.contentSingle
+              ? content.contentSingle.description
+              : null}
           </p>
         </div>
       </div>

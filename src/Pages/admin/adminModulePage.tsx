@@ -10,22 +10,18 @@ const AdminModulePage = () => {
   const raw = localStorage.getItem("user-store");
   const getModuleData = useModuleStore((state) => state.getModule);
   const getContent = useModuleStore((state) => state.getContent);
-  const setModuleData = useModuleStore((state) => state.setModule);
-  const [module, setModule] = useState<IModule>();
-  const [content, setContent] = useState<any>();
+  const module: IModule = {
+    title: useModuleStore((state) => state.title),
+    description: useModuleStore((state) => state.description),
+    courseId: useModuleStore((state) => state.courseId),
+    content: useModuleStore((state) => state.content),
+  };
+  const content = useModuleStore((state) => state.content);
   useEffect(() => {
     const fetchModuleData = async () => {
       try {
         const data: IModule = await getModuleData(param.moduleId!);
-        setModuleData(param.moduleId);
         const contentData = await getContent(param.moduleId!);
-        if (data) {
-          setModule(data);
-        }
-        if (contentData) {
-          setContent(contentData);
-          console.log("contentData is", contentData);
-        }
       } catch (e) {
         console.log("Error fetchModuleData:", e);
       }
@@ -34,7 +30,7 @@ const AdminModulePage = () => {
   }, []);
   return (
     <div>
-      <Navbar />
+      <Navbar />  
       {module ? (
         <div className="p-[calc(2vh+2vw)]">
           <div className="grid md:flex justify-center">

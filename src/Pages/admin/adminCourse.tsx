@@ -5,43 +5,22 @@ import type { ICourse } from "../../interfaces/Course";
 import { Navbar } from "../../Components/Navbar";
 import { Rating } from "../../Components/rating";
 import { FaEdit } from "react-icons/fa";
-import { useModuleStore } from "../../stores/useModule";
 
 const AdminCourse = () => {
   const param = useParams();
   const nav = useNavigate();
   const getCourse = useCourse((state) => state.getCourse);
   const getChapters = useCourse((state) => state.getChapters);
-  const setModuleData = useModuleStore((state) => state.setModule);
-  const [course, setCourse] = useState<ICourse>();
+  const course: ICourse = {
+    title: useCourse((state) => state.title),
+    description: useCourse((state) => state.description),
+  };
   const [name, setName] = useState<boolean>(false);
-  const [Desc, setDesc] = useState<boolean>(false);
-  const [chaps, setChaps] = useState<Array<any>>();
-
+  const chaps = useCourse((state) => state.chapters);
   useEffect(() => {
     const fetchCourse = async () => {
       const res = await getCourse(param.id as string);
       const chapRes = await getChapters(param.id as string);
-      if (res) {
-        setCourse({
-          title: res.name,
-          description: res.description,
-          rating: res.rating,
-        });
-      } else {
-        console.log("course is not set");
-        nav("404");
-      }
-      if (chapRes) {
-        console.log("chapters have been set and chapters are:", chapRes);
-        setChaps(chapRes);
-      }
-      if (course) {
-        console.log(
-          "Course has been set and response is: ",
-          JSON.stringify(course)
-        );
-      }
     };
 
     fetchCourse();
@@ -115,7 +94,9 @@ const AdminCourse = () => {
                   );
                 })
               ) : (
-                <tr></tr>
+                <tr>
+                  <td>null</td>
+                </tr>
               )}
             </tbody>
           </table>

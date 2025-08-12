@@ -4,15 +4,11 @@ import { useCourse } from "../stores/useCourse";
 import { Course_card } from "../Components/CourseCard";
 
 const ExploreCourses = () => {
-  const [courses, setCourses] = useState<any>();
   const getPublicCourses = useCourse((state) => state.getPublicCourses);
+  const courses = useCourse((state) => state.courses);
   useEffect(() => {
     const fetchCourses = async () => {
       const res = await getPublicCourses(0);
-      if (res && res.length > 0) setCourses(res);
-      if (courses) {
-        console.log("Courses are: ", courses);
-      }
     };
 
     fetchCourses();

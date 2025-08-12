@@ -10,13 +10,10 @@ import {
   Legend,
 } from "chart.js";
 import { Bar, Doughnut } from "react-chartjs-2";
+import { useEffect } from "react";
+import { useCourse } from "../../stores/useCourse";
 
-ChartJs.register(
-  CategoryScale,
-  ArcElement,
-  Tooltip,
-  Legend
-);
+ChartJs.register(CategoryScale, ArcElement, Tooltip, Legend);
 
 const UserDashboard = () => {
   const user: User = {
@@ -26,7 +23,11 @@ const UserDashboard = () => {
     uid: useAuthStore((state) => state.uid),
     password: "********",
   };
-  const setUserData = useAuthStore((state)=> state.setUserData);
+  const courses = useCourse((state) => state.recentCourses);
+  const getRecentCourses = useCourse((state) => state.getRecentCourses);
+  const setUserData = useAuthStore((state) => state.setUserData);
+  const checkResume = useCourse((state) => state.checkResume);
+  const resume = useCourse((state) => state.resume);
   const nav = useNavigate();
   const text = "text-white font-opensans text-sm font-semibold";
   const options = {
@@ -44,6 +45,18 @@ const UserDashboard = () => {
       },
     },
   };
+  useEffect(() => {
+    try {
+      const uid = JSON.parse(localStorage.getItem("user-store")!)?.state?.uid;
+      const fetchCourses = async () => {
+        const res = await getRecentCourses(uid);
+        const resume = await checkResume();
+      };
+      fetchCourses();
+    } catch (e) {
+      console.log("Error in UserDashboard(useEffect)", e);
+    }
+  }, []);
   return (
     <div>
       <Navbar />
@@ -86,7 +99,7 @@ const UserDashboard = () => {
                       uid: " ",
                     });
                     localStorage.clear();
-                    nav('/');
+                    nav("/");
                   }}
                 >
                   Logout
@@ -95,34 +108,49 @@ const UserDashboard = () => {
             </div>
 
             <div className="p-5 bg-purple-400 rounded-4xl shadow grow">
-              <Doughnut data = {
-                {
-                  datasets: [
-                    {
-                      data: [75,25],
-                      circumference: 180,
-                      circular:true,
-                      rotation: -90,
-                    }
-                  ]
-                }
-              } ></Doughnut>
+              {resume ? (
+                <div
+                  className="bg-purple-950"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    nav(
+                      `/user/course/${resume.courseId}/${resume.chapterId}/content/${resume.id}`
+                    );
+                  }}
+                >
+                  <p className="text-white">
+                    Continue Watching: {resume.title}
+                  </p>
+                  <p className="text-white">
+                    Course: {resume.courseTitle} - {resume.chapterTitle}
+                  </p>
+                </div>
+              ) : null}
             </div>
           </div>
           <div className="w-1/2 px-10 flex justify-between flex-col space-y-10">
             <div className="p-5 bg-purple-400 rounded-4xl shadow">
-              <p className="paratext font-semibold">Recently Enrolled Courses</p>
-              <div className="mt-3 grow justify-between">
-                {Array.from({length:4}).map((_,i) => {
-                  return <p>Course {i}</p>
-                })}
-              </div>
+              <p>something here</p>
             </div>
             <div className="p-5 bg-purple-500 rounded-4xl shadow grow">
               <p className="paratext font-semibold">Recent Course Stats</p>
-              {Array.from({ length: 10 }).map((_, i) => {
-                return <p>Course {i}</p>;
-              })}
+              <div className="mt-3 grow justify-between">
+                {Array.isArray(courses) ? (
+                  courses.map((c: any) => (
+                    <div className="flex justify-between items-center p-2 bg-purple-900 text-white rounded-xl m-1">
+                      <p>{c.name}</p>
+                      <div className="flex items-center bg-purple-950 pl-4 rounded-2xl">
+                        <p className="mr-2">Completion</p>
+                        <div className="rounded-full flex justify-center items-center w-11 h-11 bg-black">
+                          <p>{parseInt(c.progress)}%</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p>null</p>
+                )}
+              </div>
             </div>
           </div>
         </div>

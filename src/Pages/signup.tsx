@@ -44,11 +44,12 @@ const Signup = () => {
         l_name: values.ln,
         password: values.psw,
       };
-      setUserData(user);
+      console.log("posting")
       const response = await signupUser(user);
       if (response) {
         console.log("success from signup.tsx");
-      }
+        nav("/signin");
+      } else console.log("No respose received from signupUser");
     }
   };
 

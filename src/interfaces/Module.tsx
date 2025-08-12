@@ -3,4 +3,5 @@ export interface IModule {
   courseId?: string;
   title?: string;
   description?: string;
+  content?: Array<any>;
 }

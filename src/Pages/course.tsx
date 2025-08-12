@@ -12,12 +12,14 @@ const Course = () => {
   const param = useParams();
   const getCourse = useCourse((state) => state.getCourse);
   const getChapters = useCourse((state) => state.getChapters);
-  const setEnrollee = useEnrollStore((state) => state.setEnrollee);
   const checkEnroll = useEnrollStore((state) => state.checkEnroll);
-
-  const [course, setCourse] = useState<ICourse>();
-  const [enrolled, setEnrolled] = useState<boolean>();
-  const [chap, setChap] = useState<Array<any>>();
+  const course = {
+    title: useCourse((state) => state.title),
+    description: useCourse((state) => state.description),
+    rating: 0,
+  };
+  const enrolled = useEnrollStore((state) => state.enrolled);
+  const chap = useCourse((state) => state.chapters);
   useEffect(() => {
     const fetchCourse = async () => {
       const raw = localStorage.getItem("user-store");
@@ -26,33 +28,9 @@ const Course = () => {
       const token = parsed?.state?.token;
       const res = await getCourse(param.id as string);
       const chapRes = await getChapters(param.id as string);
-      setEnrollee(uid, param.id!, token);
-      if (res) {
-        setCourse({
-          title: res.name,
-          description: res.description,
-          rating: res.rating,
-        });
-      } else {
-        console.log("course is not set");
-      }
-      if (chapRes) {
-        setChap(chapRes);
-      }
-      if (course) {
-        console.log(
-          "Course has been set and response is: ",
-          JSON.stringify(course)
-        );
-      }
       console.log("Enrolled is: ", enrolled);
 
       const enrollRes = await checkEnroll(uid, param.id!);
-      if (enrollRes) {
-        setEnrolled(true);
-      } else {
-        setEnrolled(false);
-      }
     };
 
     fetchCourse();

@@ -9,7 +9,6 @@ const AddChapter = () => {
   const nav = useNavigate();
   const param = useParams();
   const createChapter = useCourse((state) => state.createChapter);
-  const setChapData = useCourse((state) => state.setChapData);
   const [sub, setSub] = useState<boolean>(false);
   const fields = {
     title: "",
@@ -38,6 +37,12 @@ const AddChapter = () => {
   const subHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       setLoading(true);
+      console.log(
+        "Submitting. Title:",
+        values.title,
+        "description",
+        values.description
+      );
       e.preventDefault();
       if (Object.values(err).some((val) => val === true)) {
         setSub(true);
@@ -47,7 +52,6 @@ const AddChapter = () => {
           currentChapT: values.title,
           currentChapD: values.description,
         };
-        setChapData(course);
         const res = await createChapter(
           values.title,
           values.description,

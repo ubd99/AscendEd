@@ -6,31 +6,10 @@ import { useNavigate } from "react-router-dom";
 const CManage = () => {
   const nav = useNavigate();
   const getPublicCourses = useCourse((state) => state.getPublicCourses);
-  const getCourseEnrolls = useCourse((state) => state.getCourseEnrolls);
-  const [name, setName] = useState<string>();
-  const [Desc, setDesc] = useState<string>();
-  const [courses, setCourses] = useState<any>();
+  const courses = useCourse((state) => state.courses);
   useEffect(() => {
     const fetchCourses = async () => {
       const res = await getPublicCourses(0);
-      if (res && res.length > 0) {
-        const crs = await Promise.all(
-          res.map(async (c: any) => {
-            const ceRes = await getCourseEnrolls(c.id, "number");
-            return {
-              id: c.id,
-              name: c.name,
-              description: c.description,
-              belongsTo: c.belongsTo,
-              enrolls: ceRes,
-              createdAt: c.createdAt,
-              updatedAt: c.updatedAt,
-            };
-          })
-        );
-        setCourses(crs);
-        console.log("Courses are: ", courses);
-      }
     };
 
     fetchCourses();

@@ -6,7 +6,14 @@ type TEnrollee = {
   uid: string;
   courseId: string;
   token: string;
-  setEnrollee: (uid: string, courseId: string, token: string) => void;
+  weeklyEnrollments?: Record<string, number>;
+  enrolled?: boolean;
+  setEnrollee: (
+    uid?: string,
+    courseId?: string,
+    token?: string,
+    weeklyEnrollments?: Record<string, number>
+  ) => void;
   enroll: (uid: string, courseId: string) => Promise<any>;
   checkEnroll: (uid: string, courseId: string) => Promise<any>;
   getWeeklyEnrollments: () => Promise<any>;
@@ -15,11 +22,16 @@ type TEnrollee = {
 const useEnrollStore = create<TEnrollee>((set, get) => ({
   uid: " ",
   courseId: " ",
-  setEnrollee: (uid, courseId, token) => {
+  weeklyEnrollments: undefined,
+  enrolled: undefined,
+  setEnrollee: (uid?, courseId?, token?, weeklyEnrollments?) => {
     set((state) => ({
-      uid: uid,
-      courseId: courseId,
-      token: token,
+      uid: uid ? uid : state.uid,
+      courseId: courseId ? courseId : state.courseId,
+      token: token ? token : state.token,
+      weeklyEnrollments: weeklyEnrollments
+        ? weeklyEnrollments
+        : state.weeklyEnrollments,
     }));
   },
   token: " ",
@@ -30,6 +42,9 @@ const useEnrollStore = create<TEnrollee>((set, get) => ({
         uid: uid,
         courseId: courseId,
       });
+      set((state) => ({
+        enrolled: true,
+      }));
       return res;
     } catch (e) {
       console.log("Error in enrollStore(Enroll):", e);
@@ -43,6 +58,9 @@ const useEnrollStore = create<TEnrollee>((set, get) => ({
           courseId: courseId,
         },
       });
+      set(() => ({
+        enrolled: res.data.enrolled,
+      }));
       return res.data.enrolled;
     } catch (e) {
       console.log("error in useEnrollStore(checkEnroll):", e);
@@ -57,6 +75,8 @@ const useEnrollStore = create<TEnrollee>((set, get) => ({
           "Response received from axios for weekly enrollments:",
           res.data
         );
+        get().setEnrollee(undefined, undefined, undefined, res.data);
+
         return res.data;
       }
       console.log(

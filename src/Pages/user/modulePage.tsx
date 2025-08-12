@@ -1,29 +1,29 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { Navbar } from "../../Components/Navbar";
 import { useModuleStore } from "../../stores/useModule";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import type { IModule } from "../../interfaces/Module";
+import { useCourse } from "../../stores/useCourse";
 
 const ModulePage = () => {
   const nav = useNavigate();
   const param = useParams();
   const getModuleData = useModuleStore((state) => state.getModule);
   const getContent = useModuleStore((state) => state.getContent);
-  const setModuleData = useModuleStore((state) => state.setModule);
-  const [content, setContent] = useState<any>();
-  const [module, setModule] = useState<IModule>();
+  const content = useModuleStore((state) => state.content);
+  const addToResume = useCourse((state) => state.addToResume);
+  const module: IModule = {
+    id: useModuleStore((state) => state.id),
+    title: useModuleStore((state) => state.title),
+    description: useModuleStore((state) => state.description),
+    content: useModuleStore((state) => state.content),
+    courseId: useModuleStore((state) => state.courseId),
+  };
   useEffect(() => {
     const fetchModuleData = async () => {
       try {
         const data: IModule = await getModuleData(param.moduleId!);
-        setModuleData(param.moduleId);
         const contentData = await getContent(param.moduleId!);
-        if (data) {
-          setModule(data);
-        }
-        if (contentData) {
-          setContent(contentData);
-        }
       } catch (e) {
         console.log("Error fetchModuleData:", e);
       }
@@ -58,7 +58,12 @@ const ModulePage = () => {
                     <tr
                       className="rounded-xl shadow-sm shadow-black"
                       style={{ cursor: "pointer" }}
-                      onClick={() => {
+                      onClick={async () => {
+                        await addToResume(
+                          module.courseId!,
+                          param.moduleId!,
+                          c.id
+                        );
                         nav(
                           `/user/course/${c.courseId}/${c.chapterId}/content/${c.id}`
                         );

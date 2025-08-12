@@ -41,7 +41,12 @@ const useAuthStore = create<Tuser>()(
         }));
       },
       login: async (user) => {
-        console.log("Logging in");
+        console.log(
+          "Logging in with email:",
+          user.email,
+          "and password",
+          user.password
+        );
         const res = await axiosJson.post("/api/login", {
           email: user.email,
           password: user.password,
@@ -74,6 +79,7 @@ const useAuthStore = create<Tuser>()(
       },
       signup: async (user) => {
         try {
+          console.log("sending data to server");
           const res = await axiosJson.post("/api/signup", {
             f_name: user.f_name,
             l_name: user.l_name,
@@ -82,8 +88,11 @@ const useAuthStore = create<Tuser>()(
           });
           if (res.status === 200) {
             console.log("signup success (status:200 - OK)");
+            return true;
+          } else {
+            console.log("returning false");
+            return false;
           }
-          return true;
         } catch (e) {
           console.log(`error in SignupAPI: ${e}`);
           return false;

@@ -3,11 +3,6 @@ import { create } from "zustand";
 import type { ICourse } from "../interfaces/Course";
 import { axiosForm, axiosJson } from "../api/axios/axios";
 
-type TChapter = {
-  title: string;
-  description: string;
-};
-
 type TCourse = {
   title: string;
   description: string;
@@ -15,7 +10,10 @@ type TCourse = {
   imgUrl: string;
   currentChapT: string;
   currentChapD: string;
-  chapters: TChapter[];
+  chapters: Array<any>;
+  courses?: Array<any>;
+  recentCourses?: Array<any>;
+  resume: any;
   createChapter: (
     title: string,
     description: string,
@@ -28,6 +26,14 @@ type TCourse = {
   createCourse: (course: ICourse) => Promise<any>;
   getPublicCourses: (limit: number) => Promise<any>;
   getCourseEnrolls: (courseId: string, dataType: string) => Promise<any>;
+  getRecentCourses: (uid: string) => Promise<any>;
+  setCourses: (courses: Array<any>) => Promise<any>;
+  addToResume: (
+    courseId: string,
+    chapterId: string,
+    contentId: string
+  ) => Promise<any>;
+  checkResume: () => Promise<any>;
 };
 
 const useCourse = create<TCourse>((set, get) => ({
@@ -36,12 +42,13 @@ const useCourse = create<TCourse>((set, get) => ({
   chapters: [],
   image: undefined,
   imgUrl: " ",
+  courses: undefined,
   setCourseData: (course) => {
     set((state) => ({
-      title: course.title,
-      description: course.description,
-      image: course.image,
-      chapters: course.chapters,
+      title: course.title ? course.title : state.title,
+      description: course.description ? course.description : state.description,
+      image: course.image ? course.image : state.image,
+      chapters: course.chapters ? course.chapters : state.chapters,
     }));
   },
   createCourse: async (course) => {
@@ -80,6 +87,11 @@ const useCourse = create<TCourse>((set, get) => ({
       currentChapD: course.currentChapD,
     }));
   },
+  setCourses: async (courses) => {
+    set((state) => ({
+      courses: courses ? courses : state.courses,
+    }));
+  },
   getPublicCourses: async (limit) => {
     try {
       const raw = localStorage.getItem("user-store");
@@ -92,6 +104,7 @@ const useCourse = create<TCourse>((set, get) => ({
         },
       });
       console.log(JSON.stringify(res.data.courses));
+      get().setCourses(res.data.courses);
       return res.data.courses;
     } catch (e) {
       console.log("error in getPublicCourses: ", e);
@@ -104,6 +117,11 @@ const useCourse = create<TCourse>((set, get) => ({
           cid: id,
         },
       });
+      get().setCourseData({
+        title: res.data.name,
+        description: res.data.description,
+        rating: res.data.rating,
+      });
       return res.data;
     } catch (e) {
       console.log("Error in useCourse(getCourse): ", e);
@@ -111,9 +129,7 @@ const useCourse = create<TCourse>((set, get) => ({
     }
   },
   createChapter: async (title, description, cId) => {
-    const raw = localStorage.getItem("user-store");
-    const parsed = JSON.parse(raw!);
-    const tkn = parsed?.state?.token;
+    console.log("from createChapter: posting");
     const res = await axiosJson.post("/api/admin/courses/new_chapter", {
       id: cId,
       title: title,
@@ -138,8 +154,16 @@ const useCourse = create<TCourse>((set, get) => ({
         },
       });
       if (res) {
+        get().setCourseData({ chapters: res.data });
+        console.log(
+          "from useCourse(getChapters): chapters are",
+          get().chapters
+        );
         return res.data;
-      } else return null;
+      } else {
+        console.log("from useCourse(getChapters): No data received");
+        return null;
+      }
     } catch (e) {
       console.log("Error in useCourse(getChapters):", e);
     }
@@ -162,6 +186,67 @@ const useCourse = create<TCourse>((set, get) => ({
       return null;
     } catch (e) {
       console.log("Error in getCourseEnrolls Controller:", e);
+      return null;
+    }
+  },
+  getRecentCourses: async (uid) => {
+    try {
+      const res = await axiosJson.get("/api/user/getRecentCourses", {
+        params: {
+          uid: uid,
+        },
+      });
+      if (res) {
+        console.log(
+          "From useCourse(getRecentCourses): response received from axios:",
+          res.data
+        );
+        set((state) => ({
+          recentCourses: res.data,
+        }));
+        return res.data;
+      }
+      console.log("From useCourse(getRecentCourses): No response received");
+      return null;
+    } catch (e) {
+      console.log("Error in useCourse (getRecentCourses):", e);
+      return null;
+    }
+  },
+  addToResume: async (courseId, chapterId, contentId) => {
+    try {
+      const uid = JSON.parse(localStorage.getItem("user-store")!)?.state?.uid;
+      const res = await axiosJson.post("/api/user/addToResume", {
+        uid: uid,
+        courseId: courseId,
+        chapterId: chapterId,
+        contentId: contentId,
+      });
+      if (res) {
+        return true;
+      } else return null;
+    } catch (e) {
+      console.log("Error in useCourse(addToResume):", e);
+      return null;
+    }
+  },
+  resume: undefined,
+  checkResume: async () => {
+    try {
+      const uid = JSON.parse(localStorage.getItem("user-store")!)?.state?.uid;
+      const res = await axiosJson.get("/api/user/checkResume", {
+        params: {
+          uid: uid,
+        },
+      });
+      if (res) {
+        set(() => ({
+          resume: res.data,
+        }));
+        return res.data;
+      } else return null;
+    } catch (e) {
+      console.log("error in useCourse(checkResume):", e);
       return null;
     }
   },

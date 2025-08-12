@@ -3,18 +3,14 @@ import { Course_card } from "../Components/CourseCard";
 import { Navbar } from "../Components/Navbar";
 import { Testimonial } from "../Components/Testimonial";
 import { useCourse } from "../stores/useCourse";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 const Home = () => {
   const getCourses = useCourse((state) => state.getPublicCourses);
-  const [courses, setCourse] = useState<any>();
+  const courses = useCourse((state) => state.courses);
   const nav = useNavigate();
   useEffect(() => {
     const fetchCourses = async () => {
       const res = await getCourses(3);
-      if (res && res.length > 0) setCourse(res);
-      if (courses) {
-        console.log("Courses are: ", courses);
-      }
     };
 
     fetchCourses();

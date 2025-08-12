@@ -2,6 +2,7 @@ import axios, { type AxiosInstance } from "axios";
 
 const axiosJson = axios.create({
   baseURL: "http://localhost:5000",
+  timeout: 10000,
 });
 
 const axiosForm = axios.create({

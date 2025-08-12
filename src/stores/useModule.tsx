@@ -1,23 +1,37 @@
-import axios from "axios";
 import { create } from "zustand";
 import type { IModule } from "../interfaces/Module";
 import { axiosForm, axiosJson } from "../api/axios/axios";
 
 type TModule = {
   id: string;
-  videoId: string;
   title: string;
   description: string;
   courseId: string;
-  video?: File;
+  contentSingle?: {
+    name?: string;
+    description?: string;
+    completed?: boolean;
+    createdAt?: string;
+    updatedAt?: string;
+  };
+  content?: Array<any>;
+  markAsCompleted: (contentId: string) => Promise<any>;
+  checkCompleted: (contentId: string) => Promise<any>;
   setModule: (
     id?: string,
     title?: string,
     description?: string,
+    contentSingle?: {
+      name?: string;
+      description?: string;
+      createdAt?: string;
+      updatedAt?: string;
+      completed?: boolean;
+    },
     courseId?: string,
-    video?: File,
-    videoId?: string
+    content?: Array<any>
   ) => void;
+  getCompletionPercentage: (uid: string, courseId: string) => Promise<any>;
   addContent: (module: IModule, video?: File) => Promise<any>;
   getContent: (id: string) => Promise<any>;
   getContentSingle: (videoId: string) => Promise<any>;
@@ -29,16 +43,79 @@ const useModuleStore = create<TModule>((set, get) => ({
   title: " ",
   description: " ",
   courseId: " ",
-  videoId: " ",
-  video: undefined,
-  setModule: (id, title, description, courseId, video, videoId) => {
+  content: [],
+  contentSingle: undefined,
+  getCompletionPercentage: async (courseId) => {
+    try {
+      const uid = JSON.parse(localStorage.getItem("user-store")!)?.state?.uid;
+      const percent = await axiosJson.post("/api/user/getPercentCompleted", {
+        courseId: courseId,
+        uid: uid,
+      });
+      if (percent) {
+        return percent;
+      } else return null;
+    } catch (e) {
+      console.log("Error in useModuleStore(getCompletionPercentage):", e);
+      return null;
+    }
+  },
+  markAsCompleted: async (contentId) => {
+    const uid = JSON.parse(localStorage.getItem("user-store")!)?.state?.uid;
+    const res = await axiosJson.post("/api/user/courses/content/markComplete", {
+      contentId: contentId,
+      uid: uid,
+    });
+    const completed = true;
+    if (res) {
+      set((state) => ({
+        contentSingle: {
+          ...state.contentSingle,
+          completed,
+        },
+      }));
+    } else console.log("completion status not updated");
+  },
+  checkCompleted: async (contentId) => {
+    try {
+      const uid = JSON.parse(localStorage.getItem("user-store")!)?.state?.uid;
+
+      const res = await axiosJson.post(
+        "/api/user/courses/content/checkComplete",
+        {
+          contentId: contentId,
+          uid: uid,
+        }
+      );
+      if (res) {
+        let completed = true;
+        set((state) => ({
+          contentSingle: {
+            ...get().contentSingle,
+            completed,
+          },
+        }));
+      } else {
+        let completed = false;
+        set((state) => ({
+          contentSingle: {
+            ...get().contentSingle,
+            completed,
+          },
+        }));
+      }
+    } catch (e) {
+      console.log("Error in useModuleStore(checkCompleted):", e);
+    }
+  },
+  setModule: (id, title, description, contentSingle, courseId, content) => {
     set((state) => ({
       id: id ? id : state.id,
       title: title ? title : state.title,
       description: description ? description : state.description,
       courseId: courseId ? courseId : state.courseId,
-      video: video ? video : state.video,
-      videoId: videoId ? videoId : state.videoId,
+      contentSingle: contentSingle ? contentSingle : state.contentSingle,
+      content: content ? content : state.content,
     }));
   },
   addContent: async (module, video) => {
@@ -76,6 +153,14 @@ const useModuleStore = create<TModule>((set, get) => ({
       });
       if (res) {
         console.log("Received content for chapter/module:", id);
+        get().setModule(
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          res.data
+        );
         return res.data;
       }
     } catch (e) {
@@ -95,6 +180,14 @@ const useModuleStore = create<TModule>((set, get) => ({
         description: res.data.description,
         courseId: res.data.courseId,
       };
+      get().setModule(
+        res.data.id,
+        res.data.name,
+        res.data.description,
+        undefined,
+        res.data.courseId,
+        undefined
+      );
       return module;
     } catch (e) {
       console.log("Error in useModuleStore (getModule):", e);
@@ -103,13 +196,25 @@ const useModuleStore = create<TModule>((set, get) => ({
   },
   getContentSingle: async (videoId) => {
     try {
-      const res = await axiosJson.get("/api/user/courses/getChapter", {
+      const res = await axiosJson.get("/api/user/courses/getContentSingle", {
         params: {
           id: videoId,
         },
       });
       if (res) {
         console.log("received content:", res.data);
+        get().setModule(
+          res.data.chapterId,
+          undefined,
+          undefined,
+          {
+            name: res.data.title,
+            description: res.data.description,
+            createdAt: res.data.createdAt,
+            updatedAt: res.data.updatedAt,
+          },
+          res.data.courseId
+        );
         return res.data;
       }
       console.log(

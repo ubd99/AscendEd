@@ -50,17 +50,10 @@ const AddContent = () => {
       e.preventDefault();
       if (Object.values(err).some((val) => val === true)) {
         setSub(true);
-        console.log("Submit Handler has returned null")
+        console.log("Submit Handler has returned null");
         return null;
       } else {
-        setModuleData(
-          param.chapterId!,
-          values.title,
-          values.description,
-          param.courseId!,
-          video!
-        );
-        console.log("Module Data set")
+        console.log("Module Data set");
         const module: IModule = {
           id: param.chapterId,
           title: values.title,
@@ -71,9 +64,8 @@ const AddContent = () => {
         if (res) {
           console.log("successfully added content:", res);
           nav(`/admin/course/module/${param.chapterId}`);
-        }
-        else{
-          console.log("Failed")
+        } else {
+          console.log("Failed");
         }
       }
     } catch (e) {
