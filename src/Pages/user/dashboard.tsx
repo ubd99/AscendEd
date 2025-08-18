@@ -125,7 +125,7 @@ const UserDashboard = () => {
           </div>
           <div className="w-1/2 px-10 flex justify-between flex-col space-y-10">
             <div className="p-5 bg-purple-400 rounded-4xl shadow">
-              <p>something to be put here</p>
+              <p>something to be pasted here</p>
             </div>
             <div className="p-5 bg-purple-500 rounded-4xl shadow grow">
               <p className="paratext font-semibold">Recent Course Stats</p>
