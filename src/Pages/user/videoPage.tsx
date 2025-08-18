@@ -41,7 +41,7 @@ const VideoPage = () => {
             nav(`/user/course/module/${content ? content.id : null}`);
           }}
         >
-          &lt; back to course
+          &lt; back to module
         </p>
         <p className="headertext font-semibold mt-3 ml-3 pb-10">
           {content && content.contentSingle

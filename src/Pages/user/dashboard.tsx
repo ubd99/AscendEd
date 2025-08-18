@@ -110,7 +110,7 @@ const UserDashboard = () => {
             <div className="p-5 bg-purple-400 rounded-4xl shadow grow">
               {resume ? (
                 <div
-                  className="bg-purple-950"
+                  className="flex bg-purple-950 rounded-2xl p-5"
                   style={{ cursor: "pointer" }}
                   onClick={() => {
                     nav(
@@ -118,12 +118,12 @@ const UserDashboard = () => {
                     );
                   }}
                 >
-                  <p className="text-white">
-                    Continue Watching: {resume.title}
-                  </p>
-                  <p className="text-white">
-                    Course: {resume.courseTitle} - {resume.chapterTitle}
-                  </p>
+                  <div className="w-1/2">
+                    <p className="text-wrap break-words"></p>
+                  </div>
+                  <div className="w-1/2">
+                    <p>hello</p>
+                  </div>
                 </div>
               ) : null}
             </div>

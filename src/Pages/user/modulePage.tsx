@@ -50,6 +50,15 @@ const ModulePage = () => {
             </div>
           </div>
           <div className="hidden md:block lg:hidden bg-transparent w-0.5 mx-[calc(2.5vh+2.5vw)]"></div>
+          <p
+            className="font-opensans ml-2 underline text-purple-900 inline"
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              nav(`/course/${module.courseId}`);
+            }}
+          >
+            &lt; back to course
+          </p>
           <table className="table-fixed w-full border-separate border-spacing-y-10">
             <tbody>
               {Array.isArray(content) ? (
