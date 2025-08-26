@@ -9,7 +9,6 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Bar, Doughnut } from "react-chartjs-2";
 import { useEffect } from "react";
 import { useCourse } from "../../stores/useCourse";
 
