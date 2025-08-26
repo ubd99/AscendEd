@@ -1,7 +1,7 @@
 import { Navbar } from "../../Components/Navbar";
 import type { User } from "../../interfaces/User";
 import { useAuthStore } from "../../stores/useAuthStore";
-import { data, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Chart as ChartJs,
   CategoryScale,
