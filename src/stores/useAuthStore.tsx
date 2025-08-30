@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { User } from "../interfaces/User";
-import axios from "axios";
 import { axiosJson } from "../api/axios/axios";
 
 type Tuser = {
