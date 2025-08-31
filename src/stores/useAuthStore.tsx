@@ -20,7 +20,7 @@ type Tuser = {
 
 const useAuthStore = create<Tuser>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       f_name: " ",
       l_name: " ",
       email: " ",
@@ -30,7 +30,7 @@ const useAuthStore = create<Tuser>()(
       isadmin: false,
       hydrated: false,
       setUserData: (user) => {
-        set((state) => ({
+        set(() => ({
           f_name: user.f_name,
           l_name: user.l_name,
           email: user.email,
@@ -51,7 +51,7 @@ const useAuthStore = create<Tuser>()(
           password: user.password,
         });
         if (typeof res.data.token === "string") {
-          set((state) => ({
+          set(() => ({
             f_name: res.data.user.f_name,
             l_name: res.data.user.l_name,
             email: res.data.user.email,
@@ -72,7 +72,7 @@ const useAuthStore = create<Tuser>()(
         }
       },
       setLoggedIn: (loginState) => {
-        set((state) => ({
+        set(() => ({
           isLoggedIn: loginState,
         }));
       },
